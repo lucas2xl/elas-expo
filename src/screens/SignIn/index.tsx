@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
 import { Container, ContainerInputs } from './styled';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 
 import HeaderInformation from '../../components/HeaderInformation';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 
-import { CommonActions } from '@react-navigation/native';
 
 interface ISignIn {
   email: string;
   password: string;
 }
-const Login = ({ navigation }: any) => {
+const Login = () => {
+  const navigation = useNavigation();
   const [userLogin, setUserLogin] = useState<ISignIn>({
     email: '',
     password: '',

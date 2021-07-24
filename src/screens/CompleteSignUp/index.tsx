@@ -6,10 +6,12 @@ import {
   ContainerPicker,
   ContainerFooter,
 } from './styled';
+import { useNavigation } from '@react-navigation/core';
 
 import Profile from '../../components/Profile';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
+import Fonts from '../../styles/Fonts';
 
 interface ICompleteSignUp {
   fullName: string;
@@ -21,7 +23,8 @@ interface ICompleteSignUp {
   complement: string;
   gender: string;
 }
-const CompleteSingUp = ({ navigation }: any) => {
+const CompleteSingUp = () => {
+  const navigation = useNavigation();
   const [userCompleteSignUp, setUserCompleteSignUp] = useState<ICompleteSignUp>(
     {
       fullName: '',
@@ -90,25 +93,25 @@ const CompleteSingUp = ({ navigation }: any) => {
               label="Feminino"
               value="fem"
               color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={'sans-serif'}
+              fontFamily={Fonts.regular}
             />
             <Picker.Item
               label="Masculino"
               value="masc"
               color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={'sans-serif'}
+              fontFamily={Fonts.regular}
             />
             <Picker.Item
               label="Não-binário"
               value="notbinary"
               color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={'sans-serif'}
+              fontFamily={Fonts.regular}
             />
             <Picker.Item
               label="Outro"
               value="other"
               color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={'sans-serif'}
+              fontFamily={Fonts.regular}
             />
           </Picker>
         </ContainerPicker>

@@ -1,3 +1,4 @@
+import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
 import Colors from '../../styles/Colors';
@@ -10,30 +11,30 @@ export const Container = styled.View`
 `;
 
 export const HeaderContainer = styled.View`
-  padding-right: 5%;
-  margin-top: 40px;
+  margin: 40px 20px 0 20px;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-end;
+  text-align: center;
 `;
 
 export const Title = styled.Text`
-  padding-right: 30%;
+  flex: 1;
   font-size: 26px;
   font-family: ${Fonts.bold};
   color: ${Colors.primary};
+  text-align: center;
+  padding-left: 30px;
 `;
 
 export const ContentContainer = styled.View`
   flex: 1;
-  justify-content: flex-start;
   align-items: center;
+  justify-content: center;
 `;
 
 export const Icon = styled.Image`
   width: 63px;
   height: 72px;
-  margin-top: 10%;
   margin-bottom: 15%;
 `;
 

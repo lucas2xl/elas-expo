@@ -11,7 +11,7 @@ import EmergencyContacts from '../screens/EmergencyContacts';
 import Menu from '../screens/Menu';
 import TutorialOne from '../screens/TutorialOne';
 
-import{ Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
 import Colors from '../styles/Colors';
 import Fonts from '../styles/Fonts';
 
@@ -36,7 +36,11 @@ export const Routes: React.FC<RoutesProps> = () => {
         <Stack.Screen
           name="SignInSignUp"
           component={SignInSignUp}
-          options={{ title: '', headerTransparent: true }}
+          options={{
+            title: '',
+            headerTransparent: true,
+            headerTintColor: Colors.black,
+          }}
         />
         <Stack.Screen
           name="SignIn"
@@ -44,7 +48,8 @@ export const Routes: React.FC<RoutesProps> = () => {
           options={{
             title: '',
             headerTransparent: true,
-            headerBackImage: () => <Feather name={'x'} size={30} />,
+            headerTintColor: 'transparent',
+            // headerBackImage: () => <Feather name={'x'} size={30} />,
           }}
         />
         <Stack.Screen
@@ -53,37 +58,38 @@ export const Routes: React.FC<RoutesProps> = () => {
           options={{
             title: '',
             headerTransparent: true,
-            headerBackImage: () => <Feather name={'x'} size={30} />,
+            headerTintColor: 'transparent',
+            // headerBackImage: () => <Feather name={'x'} size={30} />,
           }}
         />
         <Stack.Screen
           name="CompleteSignUp"
           component={CompleteSignUp}
           options={{
-            title: 'Conclua seu cadastro',
-            headerTintColor: Colors.primary,
+            // title: 'Conclua seu cadastro',
             headerTransparent: true,
             headerTitleAlign: 'center',
+            headerTintColor: 'transparent',
             headerTitleStyle: {
               fontSize: 16,
               fontFamily: `${Fonts.bold}`,
             },
-            headerBackImage: () => <Feather name={'x'} size={30} />,
+            // headerBackImage: () => <Feather name={'x'} size={30} />,
           }}
         />
         <Stack.Screen
           name="EmergencyContacts"
           component={EmergencyContacts}
           options={{
-            title: 'Contatos de emergência',
-            headerTintColor: Colors.primary,
+            // title: 'Contatos de emergência',
+            headerTintColor: 'transparent',
             headerTransparent: true,
             headerTitleAlign: 'center',
             headerTitleStyle: {
               fontSize: 16,
               fontFamily: `${Fonts.bold}`,
             },
-            headerBackImage: () => <Feather name={'x'} size={30} />,
+            // headerBackImage: () => <Feather name={'x'} size={30} />,
           }}
         />
         <Stack.Screen

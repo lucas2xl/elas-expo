@@ -7,6 +7,7 @@ import {
   Title,
   ContainerFooter,
 } from './styled';
+import { useNavigation } from '@react-navigation/core';
 
 import Button from '../../components/Button';
 import Circle from '../../components/Circle';
@@ -14,7 +15,8 @@ import Modal from '../../components/Modal';
 
 import { MaterialIcons } from '@expo/vector-icons';
 
-const Home = ({ navigation }: any) => {
+const Home = () => {
+  const navigation = useNavigation();
   const [isModal, setModal] = useState(false);
   const [isSuccess, setSuccess] = useState(false);
 
@@ -23,7 +25,6 @@ const Home = ({ navigation }: any) => {
       <Container>
         <HeaderContainer>
           <Title>ELAS</Title>
-
           <MaterialIcons
             name={'menu'}
             size={30}

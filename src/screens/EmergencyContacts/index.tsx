@@ -5,6 +5,7 @@ import HeaderInformation from '../../components/HeaderInformation';
 import Input from '../../components/Input';
 import SelectInformation from '../../components/SelectInformation';
 import Button from '../../components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 interface IEmergencyContacts {
   fullName: string;
@@ -17,6 +18,7 @@ interface IEmergencyContacts {
   isFriend: boolean;
 }
 const EmergencyContacts = () => {
+  const navigation = useNavigation();
   const [
     userEmergencyContacts,
     setUserEmergencyContacts,
@@ -125,7 +127,7 @@ const EmergencyContacts = () => {
           />
         </ContentRow>
       </ContainerContent>
-      <Button text={'FINALIZAR'} />
+      <Button text={'FINALIZAR'} onPress={() => navigation.navigate("Home")}/>
     </Container>
   );
 };

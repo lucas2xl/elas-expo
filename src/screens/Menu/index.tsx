@@ -4,8 +4,11 @@ import { Container, ContainerHeader, ContainerContent } from './styled';
 import Profile from '../../components/Profile';
 import MenuCard from '../../components/MenuCard';
 import Colors from '../../styles/Colors';
+import { useNavigation } from '@react-navigation/native';
 
 const Menu = () => {
+  const navigation = useNavigation();
+  
   return (
     <Container>
       <ContainerHeader activeOpacity={0.8}>
@@ -23,7 +26,7 @@ const Menu = () => {
           name={'contacts'}
           color={Colors.secondary}
         />
-        <MenuCard text={'Ajuda'} name={'help'} color={Colors.primary} />
+        <MenuCard text={'Ajuda'} name={'help'} color={Colors.primary} onPress={() => navigation.navigate('SignInSignUp')}/>
       </ContainerContent>
     </Container>
   );

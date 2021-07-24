@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
 import { Container, ContainerInputs } from './styled';
+import { useNavigation } from '@react-navigation/core';
 
 import HeaderInformation from '../../components/HeaderInformation';
 import Input from '../../components/Input';
@@ -10,17 +10,18 @@ import Modal from '../../components/Modal';
 interface ISignUp {
   socialName: string;
   email: string;
-  confirmEmail: string;
+  emailConfirmation: string;
   password: string;
-  confirmPassword: string;
+  passwordConfirmation: string;
 }
-const SignUp = ({ navigation }: any) => {
+const SignUp = () => {
+  const navigation = useNavigation();
   const [userSignUp, setUserSignUp] = useState<ISignUp>({
     socialName: '',
     email: '',
-    confirmEmail: '',
+    emailConfirmation: '',
     password: '',
-    confirmPassword: '',
+    passwordConfirmation: '',
   });
 
   const [isPassword, setIsPassword] = useState(false);
@@ -51,9 +52,9 @@ const SignUp = ({ navigation }: any) => {
             title={'E-mail'}
           />
           <Input
-            value={userSignUp.confirmEmail}
+            value={userSignUp.emailConfirmation}
             onChangeText={(text) =>
-              setUserSignUp({ ...userSignUp, confirmEmail: text })
+              setUserSignUp({ ...userSignUp, emailConfirmation: text })
             }
             title={'Confirmar e-mail'}
           />
@@ -69,9 +70,9 @@ const SignUp = ({ navigation }: any) => {
             onPress={() => setIsPassword(!isPassword)}
           />
           <Input
-            value={userSignUp.confirmPassword}
+            value={userSignUp.passwordConfirmation}
             onChangeText={(text) =>
-              setUserSignUp({ ...userSignUp, confirmPassword: text })
+              setUserSignUp({ ...userSignUp, passwordConfirmation: text })
             }
             title={'Confirmar Senha'}
             secureTextEntry={isPassword ? false : true}

@@ -3,7 +3,7 @@ import Colors from '../../styles/Colors';
 
 export const Container = styled.View`
   flex: 1;
-  margin-top: 15%;
+  margin-top: 25%;
 `;
 
 export const ContainerHeader = styled.TouchableOpacity`

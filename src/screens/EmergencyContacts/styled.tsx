@@ -3,8 +3,7 @@ import Fonts from '../../styles/Fonts';
 
 export const Container = styled.ScrollView`
   flex: 1;
-  margin-left: 5%;
-  margin-right: 5%;
+ margin: 60px 5% 0 5%;
 `;
 
 export const Title = styled.Text`

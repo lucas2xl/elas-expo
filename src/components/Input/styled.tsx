@@ -21,13 +21,14 @@ export const Title = styled.Text`
 `;
 
 export const ContainerInput = styled.View`
+  flex: 1;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
 `;
 
 export const TextInput = styled.TextInput`
-  flex: 1;
+flex: 1;
   font-family: ${Fonts.regular};
   font-size: 16px;
   color: #000;

@@ -7,6 +7,7 @@ export const Container = styled.View`
   background-color: #fff;
   justify-content: space-between;
   align-items: center;
+  margin-top: 50px;
 `;
 
 export const ContainerIcon = styled.View`

@@ -10,10 +10,13 @@ import {
   SignUpText,
   ContainerFooter,
 } from './styled';
+import { useNavigation } from '@react-navigation/core';
 
 import Button from '../../components/Button';
+import Colors from '../../styles/Colors';
 
-const SignInSignUp = ({ navigation }: any) => {
+const SignInSignUp = () => {
+  const navigation = useNavigation();
   return (
     <>
       <Container>
@@ -38,7 +41,7 @@ const SignInSignUp = ({ navigation }: any) => {
             containerStyle={{ margin: 20 }}
           />
           <Button
-            color={'#303030'}
+            color={Colors.black}
             text={'APPLE'}
             source={require('../../assets/images/Apple.png')}
           />
