@@ -1,4 +1,6 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
+import { Colors } from '../../styles/Colors';
 import {
   Container,
   Card,
@@ -16,6 +18,7 @@ interface IModal {
   confirmText?: string;
   cancelText?: string;
   isModal?: boolean;
+  loading?: boolean;
 
   onPressCancel?: () => void;
   onPressConfirm?: () => void;
@@ -35,7 +38,11 @@ const Modal = (props: IModal) => {
             </CancelButton>
           )}
           <ConfirmButton onPress={props.onPressConfirm}>
-            <ButtonText>{props.confirmText}</ButtonText>
+            {props.loading ? (
+              <ActivityIndicator color={Colors.white} />
+            ) : (
+              <ButtonText>{props.confirmText}</ButtonText>
+            )}
           </ConfirmButton>
         </ContainerButton>
       </Card>

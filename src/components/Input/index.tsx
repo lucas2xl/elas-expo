@@ -2,6 +2,7 @@ import React from 'react';
 
 import { Container, Title, TextInput, ContainerInput, Button } from './styled';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from '../../styles/Colors';
 
 interface IInput {
   value: any;
@@ -11,7 +12,7 @@ interface IInput {
   secureTextEntry?: boolean;
   isIcon?: boolean;
   isRow?: boolean;
-  iconName?: string;
+  isSecret?: boolean;
   onChangeText: (text: string) => void;
   onPress?: () => void;
 }
@@ -32,8 +33,9 @@ const Input = (props: IInput) => {
           <Button onPress={props.onPress}>
             <Ionicons
               style={{ opacity: 0.5 }}
-              name={props.iconName ? props.iconName : ''}
+              name={props.isSecret ? 'eye-off' : 'eye'}
               size={25}
+              color={props.isSecret ? Colors.primary : Colors.black}
             />
           </Button>
         )}

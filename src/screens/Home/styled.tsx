@@ -1,7 +1,7 @@
 import { Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 
-import Colors from '../../styles/Colors';
+import { Colors } from '../../styles/Colors';
 import Fonts from '../../styles/Fonts';
 
 export const Container = styled.View`

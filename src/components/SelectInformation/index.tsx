@@ -5,6 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 
 interface ISelectInformation {
   text: string;
+  textColor?: string;
   check: boolean;
   onPress: () => void;
 }
@@ -16,7 +17,7 @@ const SelectInformation = (props: ISelectInformation) => {
         <Box check={props.check}>
           {props.check && <Entypo name={'check'} size={18} color={'white'} />}
         </Box>
-        <Text>{props.text}</Text>
+        <Text color={props.textColor}>{props.text}</Text>
       </BoxSelect>
     </Container>
   );

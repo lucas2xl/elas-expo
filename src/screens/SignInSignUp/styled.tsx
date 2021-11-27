@@ -1,13 +1,12 @@
 import styled from 'styled-components/native';
-import Colors from '../../styles/Colors';
+import { Colors } from '../../styles/Colors';
 import Fonts from '../../styles/Fonts';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: #fff;
+  background-color: ${Colors.white};
   justify-content: space-between;
   align-items: center;
-  margin-top: 50px;
 `;
 
 export const ContainerIcon = styled.View`

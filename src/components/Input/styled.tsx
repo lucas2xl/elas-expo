@@ -1,6 +1,6 @@
 import styled from 'styled-components/native';
 
-import Colors from '../../styles/Colors';
+import { Colors } from '../../styles/Colors';
 import Fonts from '../../styles/Fonts';
 
 interface IInput {
@@ -28,10 +28,11 @@ export const ContainerInput = styled.View`
 `;
 
 export const TextInput = styled.TextInput`
-flex: 1;
+  flex: 1;
   font-family: ${Fonts.regular};
   font-size: 16px;
   color: #000;
+  height: 50px;
 `;
 
 export const Button = styled.TouchableOpacity``;

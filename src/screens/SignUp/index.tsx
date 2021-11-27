@@ -1,31 +1,50 @@
 import React, { useState } from 'react';
-import { Container, ContainerInputs } from './styled';
+import { Container, ContainerInputs, TextError } from './styled';
 import { useNavigation } from '@react-navigation/core';
 
 import HeaderInformation from '../../components/HeaderInformation';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
-import Modal from '../../components/Modal';
+import { IUser } from '../../context/Auth';
 
-interface ISignUp {
-  socialName: string;
-  email: string;
-  emailConfirmation: string;
-  password: string;
-  passwordConfirmation: string;
-}
+export type ISignUp = Pick<IUser, 'social_name' | 'email' | 'password'>;
+
 const SignUp = () => {
   const navigation = useNavigation();
   const [userSignUp, setUserSignUp] = useState<ISignUp>({
-    socialName: '',
+    social_name: '',
     email: '',
-    emailConfirmation: '',
     password: '',
-    passwordConfirmation: '',
   });
+  const [password_confirmation, setPassword_confirmation] = useState('');
 
   const [isPassword, setIsPassword] = useState(false);
-  const [isModal, setModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [isError, serIsError] = useState({
+    is: false,
+    message: '',
+  });
+
+  const handleSignUp = async () => {
+    serIsError({ is: false, message: '' });
+
+    if (!userSignUp.social_name || !userSignUp.password || !userSignUp.email) {
+      return serIsError({
+        is: true,
+        message: 'Todos os campos devem ser preenchidos',
+      });
+    } else if (userSignUp.password.length < 8) {
+      return serIsError({
+        is: true,
+        message: 'A senha deve contem no minimo 8 carecteres',
+      });
+    } else if (password_confirmation !== userSignUp.password) {
+      return serIsError({ is: true, message: 'Senhas não coincidem' });
+    }
+    setLoading(true);
+    navigation.navigate('CompleteSignUp', { userSignUp });
+    setLoading(false);
+  };
 
   return (
     <>
@@ -33,14 +52,14 @@ const SignUp = () => {
         <HeaderInformation
           title={'Cadastro'}
           subtitle={
-            'É recomendado conectar seu endereço de e-mail para que possamosproteger melhor suas informações'
+            'É recomendado conectar seu endereço de e-mail para que possamos proteger melhor suas informações'
           }
         />
         <ContainerInputs showsVerticalScrollIndicator={false}>
           <Input
-            value={userSignUp.socialName}
+            value={userSignUp.social_name}
             onChangeText={(text: string) =>
-              setUserSignUp({ ...userSignUp, socialName: text })
+              setUserSignUp({ ...userSignUp, social_name: text })
             }
             title={'Nome Social'}
           />
@@ -52,13 +71,6 @@ const SignUp = () => {
             title={'E-mail'}
           />
           <Input
-            value={userSignUp.emailConfirmation}
-            onChangeText={(text) =>
-              setUserSignUp({ ...userSignUp, emailConfirmation: text })
-            }
-            title={'Confirmar e-mail'}
-          />
-          <Input
             value={userSignUp.password}
             onChangeText={(text) =>
               setUserSignUp({ ...userSignUp, password: text })
@@ -66,32 +78,21 @@ const SignUp = () => {
             title={'Senha'}
             secureTextEntry={isPassword ? false : true}
             isIcon={true}
-            iconName={isPassword ? 'eye-off' : 'eye'}
+            isSecret={isPassword}
             onPress={() => setIsPassword(!isPassword)}
           />
           <Input
-            value={userSignUp.passwordConfirmation}
-            onChangeText={(text) =>
-              setUserSignUp({ ...userSignUp, passwordConfirmation: text })
-            }
+            value={password_confirmation}
+            onChangeText={(text) => setPassword_confirmation(text)}
             title={'Confirmar Senha'}
             secureTextEntry={isPassword ? false : true}
             onPress={() => setIsPassword(!isPassword)}
           />
+          {isError.is && <TextError>{isError.message}</TextError>}
 
-          <Button text={'CADASTRAR'} onPress={() => setModal(true)} />
+          <Button text={'CONTINUAR'} onPress={handleSignUp} loading={loading} />
         </ContainerInputs>
       </Container>
-      {isModal && (
-        <Modal
-          isModal={isModal}
-          title={'Deseja confirmar o cadastro?'}
-          confirmText={'Confirmar'}
-          cancelText={'Cancelar'}
-          onPressCancel={() => setModal(false)}
-          onPressConfirm={() => navigation.navigate('CompleteSignUp')}
-        />
-      )}
     </>
   );
 };

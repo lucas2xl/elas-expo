@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import styled from 'styled-components/native';
-import Colors from '../../styles/Colors';
+import { Colors } from '../../styles/Colors';
 
 export const Container = styled.ScrollView`
   flex: 1;
@@ -14,11 +14,19 @@ export const InputSeparator = styled.View`
 export const ContainerPicker = styled.View`
   width: 50%;
   height: 30px;
-  background-color: ${Platform.OS === 'ios' ? 'transparent' :Colors.white};
+  background-color: ${Platform.OS === 'ios' ? 'transparent' : Colors.white};
   justify-content: center;
   border-radius: 10px;
   padding: ${`${Platform.OS === 'ios' ? 0 : 20}px`};
 `;
 
-export const ContainerFooter = styled.View`
+export const ContainerFooter = styled.View``;
+
+export const TermWrapper = styled.View`
+  flex: 1;
+  flex-direction: row;
+`;
+export const TermText = styled.Text`
+  color: ${Colors.orange};
+  font-size: 12px;
 `;

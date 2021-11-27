@@ -1,51 +1,116 @@
-import React, { useState } from 'react';
-import { Picker } from '@react-native-picker/picker';
+import React, { useContext, useState } from 'react';
 import {
   Container,
   InputSeparator,
   ContainerPicker,
   ContainerFooter,
+  TermWrapper,
+  TermText,
 } from './styled';
-import { useNavigation } from '@react-navigation/core';
+import { Picker } from '@react-native-picker/picker';
+import { useNavigation, useRoute, CommonActions } from '@react-navigation/core';
 
 import Profile from '../../components/Profile';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import Fonts from '../../styles/Fonts';
+import { AuthContext, IUser } from '../../context/Auth';
+import { TextError } from '../SignUp/styled';
+import SelectInformation from '../../components/SelectInformation';
+import { Colors } from '../../styles/Colors';
 
-interface ICompleteSignUp {
-  fullName: string;
-  cpf: string;
-  rg: string;
-  phoneNumber: string;
-  CEP: string;
-  address: string;
-  complement: string;
-  gender: string;
-}
 const CompleteSingUp = () => {
   const navigation = useNavigation();
-  const [userCompleteSignUp, setUserCompleteSignUp] = useState<ICompleteSignUp>(
-    {
-      fullName: '',
-      cpf: '',
-      rg: '',
-      phoneNumber: '',
-      CEP: '',
-      address: '',
-      complement: '',
-      gender: '',
-    },
-  );
+  const { signUp } = useContext(AuthContext);
+  const route = useRoute<any>();
+  const { email, password, social_name } = route.params.userSignUp;
+
+  const [isError, serIsError] = useState({
+    is: false,
+    message: '',
+  });
+  const [userCompleteSignUp, setUserCompleteSignUp] = useState<IUser>({
+    full_name: '',
+    cpf: 0,
+    phone: 0,
+    cep: 0,
+    address: '',
+    complement: '',
+    gender: '',
+    email,
+    social_name,
+    password,
+  });
+  const [loading, setLoading] = useState(false);
+  const [acceptTerm, setAcceptTerm] = useState(false);
+
+  const handleCompleteSignUp = async () => {
+    serIsError({
+      is: false,
+      message: '',
+    });
+
+    if (
+      !userCompleteSignUp.full_name ||
+      !userCompleteSignUp.cpf ||
+      userCompleteSignUp.phone === 0 ||
+      userCompleteSignUp.cep === 0 ||
+      !userCompleteSignUp.address
+    ) {
+      return serIsError({
+        is: true,
+        message: 'Todos os campos devem ser preenchidos',
+      });
+    } else if (String(userCompleteSignUp.cpf).length !== 11) {
+      return serIsError({
+        is: true,
+        message: 'CPF inválido',
+      });
+    } else if (String(userCompleteSignUp.phone).length !== 11) {
+      return serIsError({
+        is: true,
+        message: 'Telefone inválido',
+      });
+    } else if (String(userCompleteSignUp.cep).length !== 8) {
+      return serIsError({
+        is: true,
+        message: 'Cep inválido',
+      });
+    }
+    try {
+      setLoading(true);
+
+      await signUp({ ...userCompleteSignUp });
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: 'Home' }],
+        }),
+      );
+    } catch (error: any) {
+      if (error.message.includes('400')) {
+        return serIsError({
+          is: true,
+          message: 'Email já registrado',
+        });
+      }
+      serIsError({
+        is: true,
+        message: 'Problema na conexão',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <Container showsVerticalScrollIndicator={false}>
-      <Profile />
+      <Profile name={social_name} />
       <Input
         title={'Nome completo'}
-        value={userCompleteSignUp.fullName}
-        onChangeText={(text: string) =>
-          setUserCompleteSignUp({ ...userCompleteSignUp, fullName: text })
+        value={userCompleteSignUp.full_name}
+        onChangeText={(text) =>
+          setUserCompleteSignUp({ ...userCompleteSignUp, full_name: text })
         }
       />
       <InputSeparator>
@@ -53,24 +118,16 @@ const CompleteSingUp = () => {
           isRow={true}
           title={'CPF'}
           value={userCompleteSignUp.cpf}
-          onChangeText={(text: string) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, cpf: text })
-          }
-        />
-        <Input
-          isRow={true}
-          title={'RG'}
-          value={userCompleteSignUp.rg}
-          onChangeText={(text: string) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, rg: text })
+          onChangeText={(text) =>
+            setUserCompleteSignUp({ ...userCompleteSignUp, cpf: Number(text) })
           }
         />
       </InputSeparator>
       <Input
         title={'Telefone'}
-        value={userCompleteSignUp.phoneNumber}
-        onChangeText={(text: string) =>
-          setUserCompleteSignUp({ ...userCompleteSignUp, phoneNumber: text })
+        value={userCompleteSignUp.phone}
+        onChangeText={(text) =>
+          setUserCompleteSignUp({ ...userCompleteSignUp, phone: Number(text) })
         }
       />
 
@@ -78,9 +135,9 @@ const CompleteSingUp = () => {
         <Input
           isRow={true}
           title={'CEP'}
-          value={userCompleteSignUp.CEP}
+          value={userCompleteSignUp.cep}
           onChangeText={(text) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, CEP: text })
+            setUserCompleteSignUp({ ...userCompleteSignUp, cep: Number(text) })
           }
         />
         <ContainerPicker>
@@ -130,10 +187,23 @@ const CompleteSingUp = () => {
           setUserCompleteSignUp({ ...userCompleteSignUp, complement: text })
         }
       />
+
+      <TermWrapper>
+        <SelectInformation
+          text={'Eu aceito os termos e condições de uso!'}
+          check={acceptTerm}
+          onPress={() => setAcceptTerm(!acceptTerm)}
+          textColor={Colors.orange}
+        />
+      </TermWrapper>
+      {isError.is && <TextError>{isError.message}</TextError>}
       <ContainerFooter>
         <Button
           text={'FINALIZAR'}
-          onPress={() => navigation.navigate('EmergencyContacts')}
+          onPress={handleCompleteSignUp}
+          loading={loading}
+          color={acceptTerm ? Colors.primary : Colors.black}
+          disabled={!acceptTerm}
         />
       </ContainerFooter>
     </Container>

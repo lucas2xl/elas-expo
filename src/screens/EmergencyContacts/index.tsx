@@ -19,19 +19,17 @@ interface IEmergencyContacts {
 }
 const EmergencyContacts = () => {
   const navigation = useNavigation();
-  const [
-    userEmergencyContacts,
-    setUserEmergencyContacts,
-  ] = useState<IEmergencyContacts>({
-    fullName: '',
-    phoneNumber: '',
-    isMother: false,
-    isFather: false,
-    isSpouse: false,
-    isPartner: false,
-    isFamiliar: false,
-    isFriend: false,
-  });
+  const [userEmergencyContacts, setUserEmergencyContacts] =
+    useState<IEmergencyContacts>({
+      fullName: '',
+      phoneNumber: '',
+      isMother: false,
+      isFather: false,
+      isSpouse: false,
+      isPartner: false,
+      isFamiliar: false,
+      isFriend: false,
+    });
 
   return (
     <Container showsVerticalScrollIndicator={false}>
@@ -127,7 +125,11 @@ const EmergencyContacts = () => {
           />
         </ContentRow>
       </ContainerContent>
-      <Button text={'FINALIZAR'} onPress={() => navigation.navigate("Home")}/>
+      <Button
+        text={'FINALIZAR'}
+        onPress={() => navigation.navigate('Home')}
+        loading
+      />
     </Container>
   );
 };

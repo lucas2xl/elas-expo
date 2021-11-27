@@ -13,7 +13,7 @@ import {
 import { useNavigation } from '@react-navigation/core';
 
 import Button from '../../components/Button';
-import Colors from '../../styles/Colors';
+import { Colors } from '../../styles/Colors';
 
 const SignInSignUp = () => {
   const navigation = useNavigation();
@@ -34,7 +34,7 @@ const SignInSignUp = () => {
         </ContainerCenter>
 
         <ContainerFooter>
-          <Button
+          {/* <Button
             text={'EMAIL'}
             source={require('../../assets/images/Email.png')}
             imageStyle={{ width: 18, height: 15 }}
@@ -51,7 +51,7 @@ const SignInSignUp = () => {
             text={'GOOGLE'}
             source={require('../../assets/images/Google.png')}
             containerStyle={{ marginTop: 20, marginBottom: 55 }}
-          />
+          /> */}
         </ContainerFooter>
       </Container>
     </>

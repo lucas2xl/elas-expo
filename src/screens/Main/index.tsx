@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Icon, ContainerFooter, Text } from './styled';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, CommonActions } from '@react-navigation/core';
 
-import Colors from '../../styles/Colors';
+import { Colors } from '../../styles/Colors';
 import Button from '../../components/Button';
 
 const Main = () => {
@@ -14,8 +14,16 @@ const Main = () => {
         <Text>Te deixando segura em todos os momentos!</Text>
         <Button
           color={Colors.primary}
-          onPress={() => navigation.navigate('SignInSignUp')}
+          onPress={() =>
+            navigation.dispatch(
+              CommonActions.reset({
+                index: 1,
+                routes: [{ name: 'SignInSignUp' }],
+              }),
+            )
+          }
           text={'INICIAR'}
+          loading={false}
         />
       </ContainerFooter>
     </Container>

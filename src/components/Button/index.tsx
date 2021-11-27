@@ -1,4 +1,6 @@
 import React from 'react';
+import { ActivityIndicator } from 'react-native';
+import { Colors } from '../../styles/Colors';
 
 import { Container, Image, Text } from './styled';
 
@@ -10,6 +12,8 @@ interface IButton {
   source?: any;
   textColor?: string;
   text?: string;
+  loading: boolean;
+  disabled?: boolean;
 }
 
 const Home = (props: IButton) => {
@@ -17,9 +21,14 @@ const Home = (props: IButton) => {
     <Container
       style={props.containerStyle}
       color={props.color}
+      disabled={props.disabled}
       onPress={props.onPress}>
       {props.source && <Image style={props.imageStyle} source={props.source} />}
-      <Text textColor={props.textColor}>{props.text}</Text>
+      {props.loading ? (
+        <ActivityIndicator color={Colors.white} />
+      ) : (
+        <Text textColor={props.textColor}>{props.text}</Text>
+      )}
     </Container>
   );
 };

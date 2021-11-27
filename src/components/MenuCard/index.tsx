@@ -9,7 +9,7 @@ import {
 } from '@expo/vector-icons';
 
 interface IIcon {
-  name?: 'config' | 'blog' | 'contacts' | 'help';
+  name?: 'config' | 'blog' | 'contacts' | 'help' | 'sign-out';
 }
 interface IMenuCard extends IIcon {
   color?: string;
@@ -29,6 +29,8 @@ const MenuCard = (props: IMenuCard) => {
         return <Feather name={'users'} size={25} color={'#fff'} />;
       case 'help':
         return <Ionicons name={'help'} size={25} color={'#fff'} />;
+      case 'sign-out':
+        return <Ionicons name={'log-out'} size={25} color={'#fff'} />;
     }
   };
 
