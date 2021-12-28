@@ -6,17 +6,19 @@ import HeaderInformation from '../../components/HeaderInformation';
 import Input from '../../components/Input';
 import Button from '../../components/Button';
 import { IUser } from '../../context/Auth';
+import { Platform } from 'react-native';
 
 export type ISignUp = Pick<IUser, 'social_name' | 'email' | 'password'>;
 
 const SignUp = () => {
   const navigation = useNavigation();
   const [userSignUp, setUserSignUp] = useState<ISignUp>({
-    social_name: '',
-    email: '',
-    password: '',
+    social_name: 'Lucas Aguiar',
+    email: 'luqkinhaas@gmail.com',
+    password: '12345678',
   });
-  const [password_confirmation, setPassword_confirmation] = useState('');
+  const [password_confirmation, setPassword_confirmation] =
+    useState('12345678');
 
   const [isPassword, setIsPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,7 +50,9 @@ const SignUp = () => {
 
   return (
     <>
-      <Container behavior="height" enabled>
+      <Container
+        behavior="position"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
         <HeaderInformation
           title={'Cadastro'}
           subtitle={

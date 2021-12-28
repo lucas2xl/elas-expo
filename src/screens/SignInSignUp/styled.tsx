@@ -4,7 +4,7 @@ import Fonts from '../../styles/Fonts';
 
 export const Container = styled.View`
   flex: 1;
-  background-color: ${Colors.white};
+  background-color: ${Colors.pinkLight};
   justify-content: space-between;
   align-items: center;
 `;
@@ -18,6 +18,7 @@ export const Icon = styled.Image`
   height: 72px;
 `;
 export const ContainerCenter = styled.View`
+  flex: 1;
   align-items: center;
 `;
 export const SignInButton = styled.TouchableOpacity``;
@@ -32,9 +33,4 @@ export const SignUpText = styled.Text`
   font-family: ${Fonts.regular};
   color: rgba(0, 0, 0, 0.6);
   padding: 10px;
-`;
-export const ContainerFooter = styled.View`
-  flex: 1;
-  justify-content: flex-end;
-  align-items: center;
 `;

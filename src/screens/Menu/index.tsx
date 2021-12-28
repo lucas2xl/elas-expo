@@ -6,13 +6,17 @@ import MenuCard from '../../components/MenuCard';
 import { Colors } from '../../styles/Colors';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AuthContext } from '../../context/Auth';
+import { localStorage } from '../../utils/localStorage';
 
 const Menu = () => {
   const navigation = useNavigation();
   const { user, signOut } = useContext(AuthContext);
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     signOut();
+
+    await localStorage.authenticate.remove();
+
     navigation.dispatch(
       CommonActions.reset({
         index: 1,

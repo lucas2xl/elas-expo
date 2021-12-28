@@ -10,7 +10,7 @@ const HeaderInformation = (props: IHeaderInformation) => {
   return (
     <ContainerHeader>
       <Title>{props.title}</Title>
-      <SubTitle>{props.subtitle}</SubTitle>
+      {props.subtitle && <SubTitle>{props.subtitle}</SubTitle>}
     </ContainerHeader>
   );
 };

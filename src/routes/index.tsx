@@ -16,6 +16,7 @@ import { Colors } from '../styles/Colors';
 import Fonts from '../styles/Fonts';
 import { AuthContext, AuthProvider } from '../context/Auth';
 import { color } from 'react-native-reanimated';
+import RecoverPassword from '../screens/RecoverPassword';
 
 interface RoutesProps {}
 
@@ -131,6 +132,27 @@ export const Routes: React.FC<RoutesProps> = () => {
                 fontSize: 16,
                 fontFamily: `${Fonts.bold}`,
               },
+            }}
+          />
+          <Stack.Screen
+            name="RecoverPassword"
+            component={RecoverPassword}
+            options={{
+              headerTransparent: true,
+              headerTitleAlign: 'center',
+              headerTintColor: 'transparent',
+              headerTitleStyle: {
+                fontSize: 16,
+                fontFamily: `${Fonts.bold}`,
+              },
+              headerBackImage: () => (
+                <Feather
+                  style={{ marginLeft: 15 }}
+                  name={'x'}
+                  size={30}
+                  color={Colors.primary}
+                />
+              ),
             }}
           />
           <Stack.Screen

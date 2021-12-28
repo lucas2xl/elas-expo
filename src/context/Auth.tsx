@@ -34,11 +34,38 @@ export interface IUserSignIn {
   password: string;
 }
 
+export interface ICode {
+  value: string;
+  id: string;
+}
+
+export interface IGenerateCodeResponse {
+  code: ICode;
+}
+
+export interface IRecoverResponse {
+  user: IUser;
+}
+
+export interface IRecoverPasswordRequest {
+  email: string;
+  newPassword: string;
+  code: ICode;
+}
+
 interface IAuthContextData {
   user: IUserResponse | null;
   signOut: () => void;
   signIn: ({ email, password }: IUserSignIn) => Promise<void>;
   signUp: (data: IUser) => Promise<IUserResponse>;
+  generateCodeForRecoverPassword: (
+    email: string,
+  ) => Promise<ICode>;
+  recoverPassword: ({
+    code,
+    email,
+    newPassword,
+  }: IRecoverPasswordRequest) => Promise<IRecoverResponse>;
 }
 
 interface IAuthResponse {
@@ -101,8 +128,37 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     return user;
   };
 
+  const generateCodeForRecoverPassword = async (email: string) => {
+    const res = await api.post<IGenerateCodeResponse>(
+      '/user/request-password',
+      {
+        email,
+      },
+    );
+    const { code } = res.data;
+
+    return code;
+  };
+
+  const recoverPassword = async (data: IRecoverPasswordRequest) => {
+    const res = await api.post<IRecoverResponse>('/user/recover-password', {
+      ...data,
+    });
+    const { user } = res.data;
+
+    return { user };
+  };
+
   return (
-    <AuthContext.Provider value={{ user, signOut, signIn, signUp }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        signOut,
+        signIn,
+        signUp,
+        generateCodeForRecoverPassword,
+        recoverPassword,
+      }}>
       {children}
     </AuthContext.Provider>
   );

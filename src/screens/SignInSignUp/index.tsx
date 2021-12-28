@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import {
   Container,
   ContainerIcon,
@@ -8,15 +8,45 @@ import {
   SignInText,
   SignUpButton,
   SignUpText,
-  ContainerFooter,
 } from './styled';
-import { useNavigation } from '@react-navigation/core';
+import { useNavigation, CommonActions } from '@react-navigation/core';
 
-import Button from '../../components/Button';
-import { Colors } from '../../styles/Colors';
+import * as LocalAuthentication from 'expo-local-authentication';
+import { localStorage } from '../../utils/localStorage';
+import { AuthContext } from '../../context/Auth';
 
 const SignInSignUp = () => {
   const navigation = useNavigation();
+  const { signIn } = useContext(AuthContext);
+
+  useEffect(() => {
+    authentication();
+  }, []);
+
+  const authentication = async () => {
+    try {
+      const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
+      console.log('1', savedBiometrics);
+      if (!savedBiometrics) return;
+
+      const hasAuthenticateOnStorage = await localStorage.authenticate.get();
+      if (!hasAuthenticateOnStorage) return;
+
+      console.log('2', hasAuthenticateOnStorage);
+      const isAuthenticate = await LocalAuthentication.authenticateAsync();
+      if (!isAuthenticate) return;
+
+      const { email, password } = hasAuthenticateOnStorage;
+      await signIn({ email, password });
+      navigation.dispatch(
+        CommonActions.reset({
+          index: 1,
+          routes: [{ name: 'Home' }],
+        }),
+      );
+    } catch (error) {}
+  };
+
   return (
     <>
       <Container>
@@ -32,27 +62,6 @@ const SignInSignUp = () => {
             <SignUpText>Cadastre-se</SignUpText>
           </SignUpButton>
         </ContainerCenter>
-
-        <ContainerFooter>
-          {/* <Button
-            text={'EMAIL'}
-            source={require('../../assets/images/Email.png')}
-            imageStyle={{ width: 18, height: 15 }}
-            containerStyle={{ margin: 20 }}
-          />
-          <Button
-            color={Colors.black}
-            text={'APPLE'}
-            source={require('../../assets/images/Apple.png')}
-          />
-          <Button
-            textColor={'#000'}
-            color={'#fff'}
-            text={'GOOGLE'}
-            source={require('../../assets/images/Google.png')}
-            containerStyle={{ marginTop: 20, marginBottom: 55 }}
-          /> */}
-        </ContainerFooter>
       </Container>
     </>
   );

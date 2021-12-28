@@ -1,6 +1,13 @@
-import React from 'react';
+import { useIsFocused } from '@react-navigation/native';
+import React, { Children, useEffect } from 'react';
 import { ActivityIndicator } from 'react-native';
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated';
 import { Colors } from '../../styles/Colors';
+import { animation } from '../../utils/amimation';
 import {
   Container,
   Card,
@@ -10,9 +17,12 @@ import {
   ConfirmButton,
   CancelButton,
   ButtonText,
+  InputWrapper,
+  TextInput,
 } from './styled';
 
 interface IModal {
+  children?: React.ReactNode;
   title?: string;
   subtitle?: string;
   confirmText?: string;
@@ -24,26 +34,54 @@ interface IModal {
   onPressConfirm?: () => void;
 }
 const Modal = (props: IModal) => {
+  const isFocused = useIsFocused();
+  const opacity = useSharedValue(0);
+  const top = useSharedValue(-200);
+
+  useEffect(() => {
+    if (isFocused) {
+      opacity.value = 1;
+      top.value = 0;
+    }
+  }, [isFocused]);
+
+  const animationStyle = useAnimatedStyle(() => {
+    return {
+      opacity: withTiming(opacity.value, animation.config),
+      top: withTiming(top.value, animation.config),
+    };
+  });
+
   return (
-    <Container
-      onPress={props.onPressCancel ? props.onPressCancel : props.onPressConfirm}
-      activeOpacity={1}>
+    <Container style={animationStyle}>
       <Card>
-        <Title>{props.title}</Title>
-        <Subtitle>{props.subtitle}</Subtitle>
+        {props.title && <Title>{props.title}</Title>}
+        {props.subtitle && <Subtitle>{props.subtitle}</Subtitle>}
+
+        {props.children}
+
         <ContainerButton>
           {props.onPressCancel && (
-            <CancelButton onPress={props.onPressCancel}>
+            <CancelButton
+              onPress={() => {
+                opacity.value = 0;
+                top.value = -200;
+                setTimeout(() => {
+                  props.onPressCancel!();
+                }, 1000);
+              }}>
               <ButtonText>{props.cancelText}</ButtonText>
             </CancelButton>
           )}
-          <ConfirmButton onPress={props.onPressConfirm}>
-            {props.loading ? (
-              <ActivityIndicator color={Colors.white} />
-            ) : (
-              <ButtonText>{props.confirmText}</ButtonText>
-            )}
-          </ConfirmButton>
+          {props.onPressConfirm && (
+            <ConfirmButton onPress={props.onPressConfirm}>
+              {props.loading ? (
+                <ActivityIndicator color={Colors.white} />
+              ) : (
+                <ButtonText>{props.confirmText}</ButtonText>
+              )}
+            </ConfirmButton>
+          )}
         </ContainerButton>
       </Card>
     </Container>

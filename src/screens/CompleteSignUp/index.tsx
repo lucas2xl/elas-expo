@@ -18,6 +18,7 @@ import { AuthContext, IUser } from '../../context/Auth';
 import { TextError } from '../SignUp/styled';
 import SelectInformation from '../../components/SelectInformation';
 import { Colors } from '../../styles/Colors';
+import { KeyboardAvoidingView, Platform } from 'react-native';
 
 const CompleteSingUp = () => {
   const navigation = useNavigation();
@@ -53,9 +54,9 @@ const CompleteSingUp = () => {
     if (
       !userCompleteSignUp.full_name ||
       !userCompleteSignUp.cpf ||
+      !userCompleteSignUp.address ||
       userCompleteSignUp.phone === 0 ||
-      userCompleteSignUp.cep === 0 ||
-      !userCompleteSignUp.address
+      userCompleteSignUp.cep === 0
     ) {
       return serIsError({
         is: true,
@@ -105,107 +106,120 @@ const CompleteSingUp = () => {
 
   return (
     <Container showsVerticalScrollIndicator={false}>
-      <Profile name={social_name} />
-      <Input
-        title={'Nome completo'}
-        value={userCompleteSignUp.full_name}
-        onChangeText={(text) =>
-          setUserCompleteSignUp({ ...userCompleteSignUp, full_name: text })
-        }
-      />
-      <InputSeparator>
+      <KeyboardAvoidingView
+        behavior="position"
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+        <Profile name={social_name} />
         <Input
-          isRow={true}
-          title={'CPF'}
-          value={userCompleteSignUp.cpf}
+          title={'Nome completo'}
+          value={userCompleteSignUp.full_name}
           onChangeText={(text) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, cpf: Number(text) })
+            setUserCompleteSignUp({ ...userCompleteSignUp, full_name: text })
           }
         />
-      </InputSeparator>
-      <Input
-        title={'Telefone'}
-        value={userCompleteSignUp.phone}
-        onChangeText={(text) =>
-          setUserCompleteSignUp({ ...userCompleteSignUp, phone: Number(text) })
-        }
-      />
-
-      <InputSeparator>
+        <InputSeparator>
+          <Input
+            isRow={true}
+            title={'CPF'}
+            value={userCompleteSignUp.cpf.toString()}
+            onChangeText={(text) =>
+              setUserCompleteSignUp({
+                ...userCompleteSignUp,
+                cpf: Number(text),
+              })
+            }
+          />
+        </InputSeparator>
         <Input
-          isRow={true}
-          title={'CEP'}
-          value={userCompleteSignUp.cep}
+          title={'Telefone'}
+          value={userCompleteSignUp.phone.toString()}
           onChangeText={(text) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, cep: Number(text) })
+            setUserCompleteSignUp({
+              ...userCompleteSignUp,
+              phone: Number(text),
+            })
           }
         />
-        <ContainerPicker>
-          <Picker
-            selectedValue={userCompleteSignUp.gender}
-            onValueChange={(value: string) =>
-              setUserCompleteSignUp({ ...userCompleteSignUp, gender: value })
-            }>
-            <Picker.Item
-              label="Feminino"
-              value="fem"
-              color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={Fonts.regular}
-            />
-            <Picker.Item
-              label="Masculino"
-              value="masc"
-              color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={Fonts.regular}
-            />
-            <Picker.Item
-              label="Não-binário"
-              value="notbinary"
-              color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={Fonts.regular}
-            />
-            <Picker.Item
-              label="Outro"
-              value="other"
-              color={'rgba(0, 0, 0, 0.5)'}
-              fontFamily={Fonts.regular}
-            />
-          </Picker>
-        </ContainerPicker>
-      </InputSeparator>
-      <Input
-        title={'Endereço'}
-        value={userCompleteSignUp.address}
-        onChangeText={(text) =>
-          setUserCompleteSignUp({ ...userCompleteSignUp, address: text })
-        }
-      />
-      <Input
-        title={'Complemento'}
-        value={userCompleteSignUp.complement}
-        onChangeText={(text) =>
-          setUserCompleteSignUp({ ...userCompleteSignUp, complement: text })
-        }
-      />
 
-      <TermWrapper>
-        <SelectInformation
-          text={'Eu aceito os termos e condições de uso!'}
-          check={acceptTerm}
-          onPress={() => setAcceptTerm(!acceptTerm)}
-          textColor={Colors.orange}
+        <InputSeparator>
+          <Input
+            isRow={true}
+            title={'CEP'}
+            value={userCompleteSignUp.cep.toString()}
+            onChangeText={(text) =>
+              setUserCompleteSignUp({
+                ...userCompleteSignUp,
+                cep: Number(text),
+              })
+            }
+          />
+          <ContainerPicker>
+            <Picker
+              selectedValue={userCompleteSignUp.gender}
+              onValueChange={(value: string) =>
+                setUserCompleteSignUp({ ...userCompleteSignUp, gender: value })
+              }>
+              <Picker.Item
+                label="Feminino"
+                value="fem"
+                color={'rgba(0, 0, 0, 0.5)'}
+                fontFamily={Fonts.regular}
+              />
+              <Picker.Item
+                label="Masculino"
+                value="masc"
+                color={'rgba(0, 0, 0, 0.5)'}
+                fontFamily={Fonts.regular}
+              />
+              <Picker.Item
+                label="Não-binário"
+                value="notbinary"
+                color={'rgba(0, 0, 0, 0.5)'}
+                fontFamily={Fonts.regular}
+              />
+              <Picker.Item
+                label="Outro"
+                value="other"
+                color={'rgba(0, 0, 0, 0.5)'}
+                fontFamily={Fonts.regular}
+              />
+            </Picker>
+          </ContainerPicker>
+        </InputSeparator>
+        <Input
+          title={'Endereço'}
+          value={userCompleteSignUp.address}
+          onChangeText={(text) =>
+            setUserCompleteSignUp({ ...userCompleteSignUp, address: text })
+          }
         />
-      </TermWrapper>
-      {isError.is && <TextError>{isError.message}</TextError>}
-      <ContainerFooter>
-        <Button
-          text={'FINALIZAR'}
-          onPress={handleCompleteSignUp}
-          loading={loading}
-          color={acceptTerm ? Colors.primary : Colors.black}
-          disabled={!acceptTerm}
+        <Input
+          title={'Complemento'}
+          value={userCompleteSignUp.complement}
+          onChangeText={(text) =>
+            setUserCompleteSignUp({ ...userCompleteSignUp, complement: text })
+          }
         />
-      </ContainerFooter>
+
+        <TermWrapper>
+          <SelectInformation
+            text={'Eu aceito os termos e condições de uso!'}
+            check={acceptTerm}
+            onPress={() => setAcceptTerm(!acceptTerm)}
+            textColor={Colors.orange}
+          />
+        </TermWrapper>
+        {isError.is && <TextError>{isError.message}</TextError>}
+        <ContainerFooter>
+          <Button
+            text={'FINALIZAR'}
+            onPress={handleCompleteSignUp}
+            loading={loading}
+            color={acceptTerm ? Colors.primary : Colors.black}
+            disabled={!acceptTerm}
+          />
+        </ContainerFooter>
+      </KeyboardAvoidingView>
     </Container>
   );
 };

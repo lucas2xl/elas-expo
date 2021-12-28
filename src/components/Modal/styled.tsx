@@ -1,9 +1,10 @@
+import Animated from 'react-native-reanimated';
 import styled from 'styled-components/native';
 
 import { Colors } from '../../styles/Colors';
 import Fonts from '../../styles/Fonts';
 
-export const Container = styled.TouchableOpacity`
+export const Container = styled(Animated.View)`
   position: absolute;
   top: 0;
   bottom: 0;
@@ -37,6 +38,22 @@ export const Subtitle = styled.Text`
   font-family: ${Fonts.regular};
   align-self: center;
   padding-top: 10px;
+`;
+
+export const TextInput = styled.TextInput`
+  font-size: 24px;
+  font-family: ${Fonts.regular};
+  color: ${Colors.primary};
+  letter-spacing: 10px;
+`;
+export const InputWrapper = styled.View`
+  border: 1px solid ${Colors.orange};
+  border-radius: 10px;
+  height: 60px;
+  width: 200px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const ContainerButton = styled.View`
