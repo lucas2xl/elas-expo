@@ -156,10 +156,10 @@ const Login = () => {
                 }
               }}
               maxLength={6}
-              caretHidden={recoverPasswordCode?.length === 6}
-              textAlign="center"
-              autoFocus={true}
               keyboardType="numeric"
+              textAlign="center"
+              caretHidden={true}
+              autoFocus={true}
             />
           </InputWrapper>
         </Modal>
