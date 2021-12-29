@@ -31,7 +31,7 @@ export interface ISignIn {
 
 const Login = () => {
   const navigation = useNavigation();
-  const { signIn, generateCodeForRecoverPassword, recoverPassword } =
+  const { signIn, generateCodeForRecoverPassword, recoverPassword, checkCode } =
     useContext(AuthContext);
   const [userLogin, setUserLogin] = useState<ISignIn>({
     email: '',
@@ -44,10 +44,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [isRecoverPasswordModal, setIsRecoverPasswordModal] = useState(false);
   const [isPasswordCodeModal, setIsPasswordCodeModal] = useState(false);
-  const [recoverPasswordCode, setRecoverPasswordCode] = useState({
-    value: '',
-    id: '',
-  });
+  const [recoverPasswordCode, setRecoverPasswordCode] = useState('');
   const errorOpacity = useSharedValue(0);
   const errorHeight = useSharedValue(0);
 
@@ -102,13 +99,28 @@ const Login = () => {
       setIsRecoverPasswordModal(true);
       return;
     }
-    const { id, value } = await generateCodeForRecoverPassword(
-      userLogin.email.toLowerCase(),
-    );
-    if (value) {
-      setRecoverPasswordCode({ value: '', id });
+    try {
+      setLoading(true);
+      await generateCodeForRecoverPassword(userLogin.email.toLowerCase());
       setIsRecoverPasswordModal(false);
       setIsPasswordCodeModal(true);
+    } catch (error) {
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleCheckCode = async (code: string) => {
+    try {
+      const result = await checkCode(userLogin.email, code);
+      setIsPasswordCodeModal(false);
+      navigation.navigate('RecoverPassword', {
+        email: userLogin.email,
+        code: result,
+      });
+    } catch (error: any) {
+      console.log(error);
+      setErrorMessage(error.message);
     }
   };
 
@@ -134,19 +146,17 @@ const Login = () => {
           loading={loading}>
           <InputWrapper>
             <TextInput
-              value={recoverPasswordCode.value}
-              onChangeText={(value) => {
-                setRecoverPasswordCode({ ...recoverPasswordCode, value });
+              value={recoverPasswordCode}
+              onChangeText={async (value) => {
+                setRecoverPasswordCode(value);
                 if (value.length === 6) {
-                  setIsPasswordCodeModal(false);
-                  navigation.navigate('RecoverPassword', {
-                    email: userLogin.email,
-                    code: recoverPasswordCode,
-                  });
+                  console.log('aq', recoverPasswordCode);
+
+                  await handleCheckCode(value);
                 }
               }}
               maxLength={6}
-              caretHidden={recoverPasswordCode?.value.length === 6}
+              caretHidden={recoverPasswordCode?.length === 6}
               textAlign="center"
               autoFocus={true}
               keyboardType="numeric"

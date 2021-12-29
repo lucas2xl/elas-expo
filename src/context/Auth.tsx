@@ -44,7 +44,7 @@ export interface IGenerateCodeResponse {
 }
 
 export interface IRecoverResponse {
-  user: IUser;
+  user_id: string;
 }
 
 export interface IRecoverPasswordRequest {
@@ -53,14 +53,18 @@ export interface IRecoverPasswordRequest {
   code: ICode;
 }
 
+export interface ICheckCodeResponse {
+  token: string;
+  code: ICode;
+}
+
 interface IAuthContextData {
   user: IUserResponse | null;
   signOut: () => void;
   signIn: ({ email, password }: IUserSignIn) => Promise<void>;
   signUp: (data: IUser) => Promise<IUserResponse>;
-  generateCodeForRecoverPassword: (
-    email: string,
-  ) => Promise<ICode>;
+  generateCodeForRecoverPassword: (email: string) => Promise<string>;
+  checkCode: (email: string, code: string) => Promise<ICode>;
   recoverPassword: ({
     code,
     email,
@@ -100,6 +104,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
   const signOut = async () => {
     await AsyncStorage.removeItem('@elas-app:token');
     await AsyncStorage.removeItem('@elas-app:id');
+    api.defaults.headers.common.authorization = `Bearer ${''}`;
     setUser(null);
   };
 
@@ -129,24 +134,35 @@ const AuthProvider = ({ children }: IAuthProvider) => {
   };
 
   const generateCodeForRecoverPassword = async (email: string) => {
-    const res = await api.post<IGenerateCodeResponse>(
-      '/user/request-password',
-      {
-        email,
-      },
-    );
-    const { code } = res.data;
+    const res = await api.post<string>('/user/request-password', {
+      email,
+    });
+    const result = res.data;
 
-    return code;
+    return result;
+  };
+
+  const checkCode = async (email: string, code: string) => {
+    const res = await api.post<ICheckCodeResponse>('/user/check-code', {
+      email,
+      code,
+    });
+    const { code: userCode, token } = res.data;
+
+    api.defaults.headers.common.authorization = `Bearer ${token}`;
+
+    return userCode;
   };
 
   const recoverPassword = async (data: IRecoverPasswordRequest) => {
     const res = await api.post<IRecoverResponse>('/user/recover-password', {
       ...data,
     });
-    const { user } = res.data;
 
-    return { user };
+    api.defaults.headers.common.authorization = `Bearer ${''}`;
+    const user_id = res.data;
+
+    return user_id;
   };
 
   return (
@@ -157,6 +173,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
         signIn,
         signUp,
         generateCodeForRecoverPassword,
+        checkCode,
         recoverPassword,
       }}>
       {children}
