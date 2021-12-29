@@ -13,12 +13,11 @@ export type ISignUp = Pick<IUser, 'social_name' | 'email' | 'password'>;
 const SignUp = () => {
   const navigation = useNavigation();
   const [userSignUp, setUserSignUp] = useState<ISignUp>({
-    social_name: 'Lucas Aguiar',
-    email: 'luqkinhaas@gmail.com',
-    password: '12345678',
+    social_name: '',
+    email: '',
+    password: '',
   });
-  const [password_confirmation, setPassword_confirmation] =
-    useState('12345678');
+  const [password_confirmation, setPassword_confirmation] = useState('');
 
   const [isPassword, setIsPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -38,7 +37,7 @@ const SignUp = () => {
     } else if (userSignUp.password.length < 8) {
       return serIsError({
         is: true,
-        message: 'A senha deve contem no minimo 8 carecteres',
+        message: 'a senha deve conter no mínimo 8 caracteres',
       });
     } else if (password_confirmation !== userSignUp.password) {
       return serIsError({ is: true, message: 'Senhas não coincidem' });
@@ -94,7 +93,7 @@ const SignUp = () => {
           />
           {isError.is && <TextError>{isError.message}</TextError>}
 
-          <Button text={'CONTINUAR'} onPress={handleSignUp} loading={loading} />
+          <Button text={'Continuar'} onPress={handleSignUp} loading={loading} />
         </ContainerInputs>
       </Container>
     </>

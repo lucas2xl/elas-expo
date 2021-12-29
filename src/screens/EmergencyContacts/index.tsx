@@ -126,7 +126,7 @@ const EmergencyContacts = () => {
         </ContentRow>
       </ContainerContent>
       <Button
-        text={'FINALIZAR'}
+        text={'Finalizar'}
         onPress={() => navigation.navigate('Home')}
         loading
       />

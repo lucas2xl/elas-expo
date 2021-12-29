@@ -212,7 +212,7 @@ const CompleteSingUp = () => {
         {isError.is && <TextError>{isError.message}</TextError>}
         <ContainerFooter>
           <Button
-            text={'FINALIZAR'}
+            text={'Finalizar'}
             onPress={handleCompleteSignUp}
             loading={loading}
             color={acceptTerm ? Colors.primary : Colors.black}

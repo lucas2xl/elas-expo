@@ -59,7 +59,7 @@ export default function Tutorial(props: ITutorial) {
       <ContainerFooter>
         <Title>{props.title}</Title>
         <Subtitle>{props.subtitle}</Subtitle>
-        <Button color={Colors.primary} text={'AVANÇAR'} />
+        <Button color={Colors.primary} text={'Avançar'} />
       </ContainerFooter>
     </Container>
   );

@@ -23,6 +23,8 @@ import {
 import { animation } from '../../utils/amimation';
 import Modal from '../../components/Modal';
 import { InputWrapper, TextInput } from '../../components/Modal/styled';
+import { ActivityIndicator } from 'react-native';
+import { Colors } from '../../styles/Colors';
 
 export interface ISignIn {
   email: string;
@@ -76,9 +78,9 @@ const Login = () => {
     } catch (error: any) {
       console.log(error.message);
       if (error.message.includes('401')) {
-        setErrorMessage('Email ou senha inválida');
+        setErrorMessage('E-mail e/ou senha inválido');
       } else {
-        setErrorMessage('Problema na conecxão');
+        setErrorMessage('Problema na conexão');
       }
       errorOpacity.value = 1;
       errorHeight.value = 100;
@@ -112,6 +114,7 @@ const Login = () => {
 
   const handleCheckCode = async (code: string) => {
     try {
+      setLoading(true);
       const result = await checkCode(userLogin.email, code);
       setIsPasswordCodeModal(false);
       navigation.navigate('RecoverPassword', {
@@ -121,6 +124,8 @@ const Login = () => {
     } catch (error: any) {
       console.log(error);
       setErrorMessage(error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -140,10 +145,7 @@ const Login = () => {
       )}
 
       {isPasswordCodeModal && (
-        <Modal
-          isModal={isRecoverPasswordModal}
-          title={'Digite o código'}
-          loading={loading}>
+        <Modal isModal={isRecoverPasswordModal} title={'Digite o código'}>
           <InputWrapper>
             <TextInput
               value={recoverPasswordCode}
@@ -162,6 +164,7 @@ const Login = () => {
               autoFocus={true}
             />
           </InputWrapper>
+          {loading && <ActivityIndicator color={Colors.primary} size="small" />}
         </Modal>
       )}
       <Container behavior="height" enabled>

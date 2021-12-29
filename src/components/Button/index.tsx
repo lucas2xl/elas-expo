@@ -12,7 +12,7 @@ interface IButton {
   source?: any;
   textColor?: string;
   text?: string;
-  loading: boolean;
+  loading?: boolean;
   disabled?: boolean;
 }
 
@@ -27,7 +27,7 @@ const Home = (props: IButton) => {
       {props.loading ? (
         <ActivityIndicator color={Colors.white} />
       ) : (
-        <Text textColor={props.textColor}>{props.text}</Text>
+        <Text textColor={props.textColor}>{props.text?.toUpperCase()}</Text>
       )}
     </Container>
   );

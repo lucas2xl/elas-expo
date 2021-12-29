@@ -81,9 +81,8 @@ const Home = () => {
         </ContentContainer>
         <ContainerFooter>
           <Button
-            text={'emergência'.toUpperCase()}
+            text={'emergência'}
             onPress={() => setModal(true)}
-            loading={false}
           />
         </ContainerFooter>
       </Container>
@@ -93,7 +92,7 @@ const Home = () => {
           confirmText={'Sim'}
           isModal={isModal}
           title={'Deseja realizar a chamada?'}
-          subtitle={'Seus dados serão compartilhados!'}
+          subtitle={'Seus dados serão compartilhados com a polícia.'}
           onPressCancel={() => setModal(false)}
           onPressConfirm={handleCall}
           loading={loading}
@@ -104,8 +103,8 @@ const Home = () => {
         <Modal
           confirmText={'Ok'}
           isModal={isSuccess}
-          title="Sucesso!"
-          subtitle="Chamada realizada, nos estamos juntos!!"
+          title="Chamada realizada com sucesso!"
+          subtitle="Juntos somos mais forte."
           onPressConfirm={() => setSuccess(false)}
         />
       )}

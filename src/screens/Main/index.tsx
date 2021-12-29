@@ -38,8 +38,7 @@ const Main = () => {
             localStorage.tutorial.save(true);
             goSignInSignUpScreen();
           }}
-          text={'INICIAR'}
-          loading={false}
+          text={'Iniciar'}
         />
       </ContainerFooter>
     </Container>
