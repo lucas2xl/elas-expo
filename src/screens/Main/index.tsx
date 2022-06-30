@@ -3,8 +3,8 @@ import { Container, Icon, ContainerFooter, Text } from './styled';
 import { useNavigation, CommonActions } from '@react-navigation/core';
 
 import { Colors } from '../../styles/Colors';
-import Button from '../../components/Button';
 import { localStorage } from '../../utils/localStorage';
+import { Button } from '../../components/Button';
 
 const Main = () => {
   const navigation = useNavigation();

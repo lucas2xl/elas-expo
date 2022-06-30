@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Container, Title, ContainerContent, ContentRow } from './styled';
 
-import HeaderInformation from '../../components/HeaderInformation';
-import Input from '../../components/Input';
-import SelectInformation from '../../components/SelectInformation';
-import Button from '../../components/Button';
 import { useNavigation } from '@react-navigation/native';
+import { TextInput } from 'react-native';
+import { HeaderInformation } from '../../components/HeaderInformation';
+import { Input } from '../../components/Input';
+import { SelectInformation } from '../../components/SelectInformation';
+import { Button } from '../../components/Button';
 
 interface IEmergencyContacts {
   fullName: string;
@@ -39,23 +40,28 @@ const EmergencyContacts = () => {
           'Para garantir uma maior seguranca para voce é interessante colocar alguns contatos para emergias'
         }
       />
-      <Input
-        title={'Nome Completo'}
-        value={userEmergencyContacts.fullName}
-        onChangeText={(text) =>
-          setUserEmergencyContacts({ ...userEmergencyContacts, fullName: text })
-        }
-      />
-      <Input
-        title={'Telefone'}
-        value={userEmergencyContacts.phoneNumber}
-        onChangeText={(text) =>
-          setUserEmergencyContacts({
-            ...userEmergencyContacts,
-            phoneNumber: text,
-          })
-        }
-      />
+      <Input title={'Nome Completo'}>
+        <TextInput
+          value={userEmergencyContacts.fullName}
+          onChangeText={(text) =>
+            setUserEmergencyContacts({
+              ...userEmergencyContacts,
+              fullName: text,
+            })
+          }
+        />
+      </Input>
+      <Input title={'Telefone'}>
+        <TextInput
+          value={userEmergencyContacts.phoneNumber}
+          onChangeText={(text) =>
+            setUserEmergencyContacts({
+              ...userEmergencyContacts,
+              phoneNumber: text,
+            })
+          }
+        />
+      </Input>
       <Title>Grau de Familiaridade</Title>
       <ContainerContent>
         <ContentRow>

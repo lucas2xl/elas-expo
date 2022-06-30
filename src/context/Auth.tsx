@@ -90,79 +90,82 @@ const AuthProvider = ({ children }: IAuthProvider) => {
   }, []);
 
   const getUser = async () => {
-    const token = await AsyncStorage.getItem('@elas-app:token');
-    const user_id = await AsyncStorage.getItem('@elas-app:id');
+    // const token = await AsyncStorage.getItem('@elas-app:token');
+    // const user_id = await AsyncStorage.getItem('@elas-app:id');
 
-    if (token && user_id) {
-      api.defaults.headers.common.authorization = `Bearer ${token}`;
-      api.get(`/users/${user_id}`).then((res) => {
-        console.log(res);
-        setUser(res.data);
-      });
-    }
+    // if (token && user_id) {
+    //   api.defaults.headers.common.authorization = `Bearer ${token}`;
+    //   api.get(`/users/${user_id}`).then((res) => {
+    //     console.log(res);
+    //     setUser(res.data);
+    //   });
+    // }
   };
   const signOut = async () => {
-    await AsyncStorage.removeItem('@elas-app:token');
-    await AsyncStorage.removeItem('@elas-app:id');
-    api.defaults.headers.common.authorization = `Bearer ${''}`;
+    // await AsyncStorage.removeItem('@elas-app:token');
+    // await AsyncStorage.removeItem('@elas-app:id');
+    // api.defaults.headers.common.authorization = `Bearer ${''}`;
     setUser(null);
   };
 
   const signIn = async ({ email, password }: IUserSignIn) => {
-    const res = await api.post<IAuthResponse>('/login', {
-      email,
-      password,
+    // const res = await api.post<IAuthResponse>('/login', {
+    //   email,
+    //   password,
+    // });
+
+    // const { token, user } = res.data;
+
+    // await AsyncStorage.setItem('@elas-app:token', token);
+    // await AsyncStorage.setItem('@elas-app:id', user.id);
+
+    // api.defaults.headers.common.authorization = `Bearer ${token}`;
+
+    setUser({
+      social_name: 'Lucas Aguiar',
+      id: '1'
     });
-
-    const { token, user } = res.data;
-
-    await AsyncStorage.setItem('@elas-app:token', token);
-    await AsyncStorage.setItem('@elas-app:id', user.id);
-
-    api.defaults.headers.common.authorization = `Bearer ${token}`;
-
-    setUser(user);
   };
 
   const signUp = async (data: IUser) => {
-    const res = await api.post<IAuthResponse>('/users', {
-      ...data,
-    });
-    const { user } = res.data;
+    // const res = await api.post<IAuthResponse>('/users', {
+    //   ...data,
+    // });
+    // const { user } = res.data;
 
-    return user;
+    // return user;
   };
 
   const generateCodeForRecoverPassword = async (email: string) => {
-    const res = await api.post<string>('/user/request-password', {
-      email,
-    });
-    const result = res.data;
+    // const res = await api.post<string>('/user/request-password', {
+    //   email,
+    // });
+    // const result = res.data;
 
-    return result;
+    // return result;
   };
 
   const checkCode = async (email: string, code: string) => {
-    const res = await api.post<ICheckCodeResponse>('/user/check-code', {
-      email,
-      code,
-    });
-    const { code: userCode, token } = res.data;
+    // const res = await api.post<ICheckCodeResponse>('/user/check-code', {
+    //   email,
+    //   code,
+    // });
+    // const { code: userCode, token } = res.data;
 
-    api.defaults.headers.common.authorization = `Bearer ${token}`;
+    // api.defaults.headers.common.authorization = `Bearer ${token}`;
 
-    return userCode;
+    // return userCode;
   };
 
   const recoverPassword = async (data: IRecoverPasswordRequest) => {
-    const res = await api.post<IRecoverResponse>('/user/recover-password', {
-      ...data,
-    });
+    // const res = await api.post<IRecoverResponse>('/user/recover-password', {
+    //   ...data,
+    // });
 
-    api.defaults.headers.common.authorization = `Bearer ${''}`;
-    const user_id = res.data;
+    // api.defaults.headers.common.authorization = `Bearer ${''}`;
+    // const user_id = res.data;
 
-    return user_id;
+    // return user_id;
   };
 
   return (

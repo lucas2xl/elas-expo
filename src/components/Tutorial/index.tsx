@@ -11,7 +11,7 @@ import {
   CardTextBody,
 } from './styled';
 
-import Button from '../Button';
+import { Button } from '../Button';
 import { Colors } from '../../styles/Colors';
 
 interface ITutorial {
@@ -22,7 +22,7 @@ interface ITutorial {
 const SLIDER_WIDTH = Dimensions.get('window').width + 80;
 const ITEM_WIDTH = Math.round(SLIDER_WIDTH * 0.7);
 
-export default function Tutorial(props: ITutorial) {
+export const Tutorial = (props: ITutorial) => {
   const isCarousel = useRef(null);
   const [index, setIndex] = useState(0);
 
@@ -63,4 +63,4 @@ export default function Tutorial(props: ITutorial) {
       </ContainerFooter>
     </Container>
   );
-}
+};

@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Container, ContainerInputs, TextError } from './styled';
 import { useNavigation } from '@react-navigation/core';
 
-import HeaderInformation from '../../components/HeaderInformation';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
 import { IUser } from '../../context/Auth';
 import { Platform } from 'react-native';
+import { TextInput } from 'react-native';
+import { Button } from '../../components/Button';
+import { Input } from '../../components/Input';
+import { HeaderInformation } from '../../components/HeaderInformation';
 
 export type ISignUp = Pick<IUser, 'social_name' | 'email' | 'password'>;
 
@@ -48,55 +49,63 @@ const SignUp = () => {
   };
 
   return (
-    <>
-      <Container
-        behavior="position"
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
-        <HeaderInformation
-          title={'Cadastro'}
-          subtitle={
-            'É recomendado conectar seu endereço de e-mail para que possamos proteger melhor suas informações'
-          }
-        />
-        <ContainerInputs showsVerticalScrollIndicator={false}>
-          <Input
+    <Container
+      behavior="padding"
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+      <HeaderInformation
+        title={'Cadastro'}
+        subtitle={
+          'É recomendado conectar seu endereço de e-mail para que possamos proteger melhor suas informações'
+        }
+      />
+      <ContainerInputs showsVerticalScrollIndicator={false}>
+        <Input title={'Nome Social'}>
+          <TextInput
             value={userSignUp.social_name}
             onChangeText={(text: string) =>
               setUserSignUp({ ...userSignUp, social_name: text })
             }
-            title={'Nome Social'}
+            style={{flex:1}}
           />
-          <Input
+        </Input>
+        <Input title={'E-mail'}>
+          <TextInput
             value={userSignUp.email}
             onChangeText={(text) =>
               setUserSignUp({ ...userSignUp, email: text })
             }
-            title={'E-mail'}
+            style={{flex:1}}
           />
-          <Input
+        </Input>
+        <Input
+          title={'Senha'}
+          isIcon={true}
+          isSecret={isPassword}
+          onPress={() => setIsPassword(!isPassword)}>
+          <TextInput
             value={userSignUp.password}
             onChangeText={(text) =>
               setUserSignUp({ ...userSignUp, password: text })
             }
-            title={'Senha'}
             secureTextEntry={isPassword ? false : true}
-            isIcon={true}
-            isSecret={isPassword}
-            onPress={() => setIsPassword(!isPassword)}
+            style={{flex:1}}
           />
-          <Input
+        </Input>
+        <Input
+          title={'Confirmar Senha'}
+          onPress={() => setIsPassword(!isPassword)}>
+          <TextInput
             value={password_confirmation}
             onChangeText={(text) => setPassword_confirmation(text)}
-            title={'Confirmar Senha'}
             secureTextEntry={isPassword ? false : true}
-            onPress={() => setIsPassword(!isPassword)}
+            style={{flex:1}}
           />
-          {isError.is && <TextError>{isError.message}</TextError>}
+        </Input>
+        {isError.is && <TextError>{isError.message}</TextError>}
 
-          <Button text={'Continuar'} onPress={handleSignUp} loading={loading} />
-        </ContainerInputs>
-      </Container>
-    </>
+        <Button text={'Continuar'} onPress={handleSignUp} loading={loading} />
+      </ContainerInputs>
+    </Container>
   );
 };
 

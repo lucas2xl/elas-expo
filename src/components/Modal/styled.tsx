@@ -45,6 +45,7 @@ export const TextInput = styled.TextInput`
   font-family: ${Fonts.regular};
   color: ${Colors.primary};
   letter-spacing: 10px;
+  flex:1;
 `;
 export const InputWrapper = styled.View`
   border: 1px solid ${Colors.orange};

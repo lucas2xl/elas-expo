@@ -4,15 +4,11 @@ import {
   ContainerInputs,
   RecoverPasswordButton,
   RecoverPasswordText,
-  Strong,
   TextError,
   WrapperError,
 } from './styled';
 import { CommonActions, useNavigation } from '@react-navigation/native';
 
-import HeaderInformation from '../../components/HeaderInformation';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
 import { AuthContext } from '../../context/Auth';
 import { localStorage } from '../../utils/localStorage';
 import {
@@ -21,10 +17,13 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 import { animation } from '../../utils/amimation';
-import Modal from '../../components/Modal';
-import { InputWrapper, TextInput } from '../../components/Modal/styled';
-import { ActivityIndicator } from 'react-native';
+import { ActivityIndicator, TextInput } from 'react-native';
 import { Colors } from '../../styles/Colors';
+import { Modal } from '../../components/Modal';
+import { InputWrapper } from '../../components/Modal/styled';
+import { HeaderInformation } from '../../components/HeaderInformation';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
 
 export interface ISignIn {
   email: string;
@@ -152,14 +151,12 @@ const Login = () => {
               onChangeText={async (value) => {
                 setRecoverPasswordCode(value);
                 if (value.length === 6) {
-                  console.log('aq', recoverPasswordCode);
-
                   await handleCheckCode(value);
                 }
               }}
+              textAlign="center"
               maxLength={6}
               keyboardType="numeric"
-              textAlign="center"
               caretHidden={true}
               autoFocus={true}
             />
@@ -175,25 +172,30 @@ const Login = () => {
           }
         />
         <ContainerInputs showsVerticalScrollIndicator={false}>
-          <Input
-            title={'E-mail'}
-            value={userLogin.email}
-            onChangeText={(text: string) =>
-              setUserLogin({ ...userLogin, email: text })
-            }
-            keyboardType={'email-address'}
-          />
+          <Input title={'E-mail'}>
+            <TextInput
+              value={userLogin.email}
+              onChangeText={(text: string) =>
+                setUserLogin({ ...userLogin, email: text })
+              }
+              keyboardType={'email-address'}
+              style={{flex:1}}
+            />
+          </Input>
           <Input
             title={'Senha'}
-            value={userLogin.password}
-            onChangeText={(text: string) =>
-              setUserLogin({ ...userLogin, password: text })
-            }
-            secureTextEntry={isSecure ? false : true}
             isIcon={true}
             isSecret={isSecure}
-            onPress={() => setSecure(!isSecure)}
-          />
+            onPress={() => setSecure(!isSecure)}>
+            <TextInput
+              value={userLogin.password}
+              onChangeText={(text: string) =>
+                setUserLogin({ ...userLogin, password: text })
+              }
+              secureTextEntry={isSecure ? false : true}
+              style={{flex:1}}
+            />
+          </Input>
           {errorHeight.value !== 0 && (
             <WrapperError style={animationStyle}>
               <TextError>{errorMessage}</TextError>

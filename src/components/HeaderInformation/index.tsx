@@ -6,7 +6,7 @@ interface IHeaderInformation {
   subtitle?: string;
 }
 
-const HeaderInformation = (props: IHeaderInformation) => {
+export const HeaderInformation = (props: IHeaderInformation) => {
   return (
     <ContainerHeader>
       <Title>{props.title}</Title>
@@ -14,5 +14,3 @@ const HeaderInformation = (props: IHeaderInformation) => {
     </ContainerHeader>
   );
 };
-
-export default HeaderInformation;

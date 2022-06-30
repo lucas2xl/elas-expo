@@ -1,7 +1,7 @@
 import React from 'react';
+import { Tutorial } from '../../components/Tutorial';
 import { Container } from './styled';
 
-import Tutorial from '../../components/Tutorial';
 
 const TutorialOne = () => {
   return (

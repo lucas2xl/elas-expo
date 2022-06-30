@@ -33,7 +33,7 @@ interface IModal {
   onPressCancel?: () => void;
   onPressConfirm?: () => void;
 }
-const Modal = (props: IModal) => {
+export const Modal = (props: IModal) => {
   const isFocused = useIsFocused();
   const opacity = useSharedValue(0);
   const top = useSharedValue(-200);
@@ -87,5 +87,3 @@ const Modal = (props: IModal) => {
     </Container>
   );
 };
-
-export default Modal;

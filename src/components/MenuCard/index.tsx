@@ -18,7 +18,7 @@ interface IMenuCard extends IIcon {
   text?: string;
 }
 
-const MenuCard = (props: IMenuCard) => {
+export const MenuCard = (props: IMenuCard) => {
   const icon = (name: string) => {
     switch (name) {
       case 'config':
@@ -43,5 +43,3 @@ const MenuCard = (props: IMenuCard) => {
     </Container>
   );
 };
-
-export default MenuCard;

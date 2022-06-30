@@ -27,12 +27,4 @@ export const ContainerInput = styled.View`
   justify-content: space-between;
 `;
 
-export const TextInput = styled.TextInput`
-  flex: 1;
-  font-family: ${Fonts.regular};
-  font-size: 16px;
-  color: #000;
-  height: 50px;
-`;
-
 export const Button = styled.TouchableOpacity``;

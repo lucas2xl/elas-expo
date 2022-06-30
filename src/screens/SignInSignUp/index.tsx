@@ -26,13 +26,11 @@ const SignInSignUp = () => {
   const authentication = async () => {
     try {
       const savedBiometrics = await LocalAuthentication.isEnrolledAsync();
-      console.log('1', savedBiometrics);
       if (!savedBiometrics) return;
 
       const hasAuthenticateOnStorage = await localStorage.authenticate.get();
       if (!hasAuthenticateOnStorage) return;
 
-      console.log('2', hasAuthenticateOnStorage);
       const isAuthenticate = await LocalAuthentication.authenticateAsync();
       if (!isAuthenticate) return;
 

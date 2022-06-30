@@ -8,7 +8,7 @@ interface IProfile {
   name: string;
 }
 
-const Profile = (props: IProfile) => {
+export const Profile = (props: IProfile) => {
   return (
     <Container noWidth={props.noWidth}>
       <ContainerIcon>
@@ -21,5 +21,3 @@ const Profile = (props: IProfile) => {
     </Container>
   );
 };
-
-export default Profile;

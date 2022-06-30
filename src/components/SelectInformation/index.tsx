@@ -10,7 +10,7 @@ interface ISelectInformation {
   onPress: () => void;
 }
 
-const SelectInformation = (props: ISelectInformation) => {
+export const SelectInformation = (props: ISelectInformation) => {
   return (
     <Container>
       <BoxSelect onPress={props.onPress}>
@@ -22,5 +22,3 @@ const SelectInformation = (props: ISelectInformation) => {
     </Container>
   );
 };
-
-export default SelectInformation;

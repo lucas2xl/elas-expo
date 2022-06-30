@@ -16,7 +16,7 @@ interface IButton {
   disabled?: boolean;
 }
 
-const Home = (props: IButton) => {
+export const Button = (props: IButton) => {
   return (
     <Container
       style={props.containerStyle}
@@ -32,5 +32,3 @@ const Home = (props: IButton) => {
     </Container>
   );
 };
-
-export default Home;

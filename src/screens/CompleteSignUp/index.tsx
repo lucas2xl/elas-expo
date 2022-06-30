@@ -10,15 +10,15 @@ import {
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation, useRoute, CommonActions } from '@react-navigation/core';
 
-import Profile from '../../components/Profile';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
 import Fonts from '../../styles/Fonts';
 import { AuthContext, IUser } from '../../context/Auth';
 import { TextError } from '../SignUp/styled';
-import SelectInformation from '../../components/SelectInformation';
 import { Colors } from '../../styles/Colors';
-import { KeyboardAvoidingView, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, TextInput } from 'react-native';
+import { Profile } from '../../components/Profile';
+import { Input } from '../../components/Input';
+import { SelectInformation } from '../../components/SelectInformation';
+import { Button } from '../../components/Button';
 
 const CompleteSingUp = () => {
   const navigation = useNavigation();
@@ -110,49 +110,51 @@ const CompleteSingUp = () => {
         behavior="position"
         keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
         <Profile name={social_name} />
-        <Input
-          title={'Nome completo'}
-          value={userCompleteSignUp.full_name}
-          onChangeText={(text) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, full_name: text })
-          }
-        />
+        <Input title={'Nome completo'}>
+          <TextInput
+            value={userCompleteSignUp.full_name}
+            onChangeText={(text) =>
+              setUserCompleteSignUp({ ...userCompleteSignUp, full_name: text })
+            }
+          />
+        </Input>
         <InputSeparator>
-          <Input
-            isRow={true}
-            title={'CPF'}
-            value={userCompleteSignUp.cpf.toString()}
+          <Input isRow={true} title={'CPF'}>
+            <TextInput
+              value={userCompleteSignUp.cpf.toString()}
+              onChangeText={(text) =>
+                setUserCompleteSignUp({
+                  ...userCompleteSignUp,
+                  cpf: Number(text),
+                })
+              }
+            />
+          </Input>
+        </InputSeparator>
+        <Input title={'Telefone'}>
+          <TextInput
+            value={userCompleteSignUp.phone.toString()}
             onChangeText={(text) =>
               setUserCompleteSignUp({
                 ...userCompleteSignUp,
-                cpf: Number(text),
+                phone: Number(text),
               })
             }
           />
-        </InputSeparator>
-        <Input
-          title={'Telefone'}
-          value={userCompleteSignUp.phone.toString()}
-          onChangeText={(text) =>
-            setUserCompleteSignUp({
-              ...userCompleteSignUp,
-              phone: Number(text),
-            })
-          }
-        />
+        </Input>
 
         <InputSeparator>
-          <Input
-            isRow={true}
-            title={'CEP'}
-            value={userCompleteSignUp.cep.toString()}
-            onChangeText={(text) =>
-              setUserCompleteSignUp({
-                ...userCompleteSignUp,
-                cep: Number(text),
-              })
-            }
-          />
+          <Input isRow={true} title={'CEP'}>
+            <TextInput
+              value={userCompleteSignUp.cep.toString()}
+              onChangeText={(text) =>
+                setUserCompleteSignUp({
+                  ...userCompleteSignUp,
+                  cep: Number(text),
+                })
+              }
+            />
+          </Input>
           <ContainerPicker>
             <Picker
               selectedValue={userCompleteSignUp.gender}
@@ -186,20 +188,22 @@ const CompleteSingUp = () => {
             </Picker>
           </ContainerPicker>
         </InputSeparator>
-        <Input
-          title={'Endereço'}
-          value={userCompleteSignUp.address}
-          onChangeText={(text) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, address: text })
-          }
-        />
-        <Input
-          title={'Complemento'}
-          value={userCompleteSignUp.complement}
-          onChangeText={(text) =>
-            setUserCompleteSignUp({ ...userCompleteSignUp, complement: text })
-          }
-        />
+        <Input title={'Endereço'}>
+          <TextInput
+            value={userCompleteSignUp.address}
+            onChangeText={(text) =>
+              setUserCompleteSignUp({ ...userCompleteSignUp, address: text })
+            }
+          />
+        </Input>
+        <Input title={'Complemento'}>
+          <TextInput
+            value={userCompleteSignUp.complement}
+            onChangeText={(text) =>
+              setUserCompleteSignUp({ ...userCompleteSignUp, complement: text })
+            }
+          />
+        </Input>
 
         <TermWrapper>
           <SelectInformation

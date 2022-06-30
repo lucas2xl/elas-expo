@@ -6,9 +6,6 @@ import {
   useRoute,
 } from '@react-navigation/native';
 
-import HeaderInformation from '../../components/HeaderInformation';
-import Input from '../../components/Input';
-import Button from '../../components/Button';
 import { AuthContext } from '../../context/Auth';
 import {
   useAnimatedStyle,
@@ -16,6 +13,10 @@ import {
   withTiming,
 } from 'react-native-reanimated';
 import { animation } from '../../utils/amimation';
+import { TextInput } from 'react-native';
+import { HeaderInformation } from '../../components/HeaderInformation';
+import { Input } from '../../components/Input';
+import { Button } from '../../components/Button';
 
 export interface ISignIn {
   email: string;
@@ -47,17 +48,17 @@ const RecoverPassword = () => {
     try {
       setLoading(true);
       if (newPassword !== confirmNewPassword) {
-        console.log('1')
+        console.log('1');
         setErrorMessage('senhas nao coincidem');
         return;
       }
       if (newPassword.length < 8) {
-        console.log('2')
+        console.log('2');
         setErrorMessage('senha deve ter pelo menos 8 caracteres');
         return;
       }
-      console.log(route.params?.email)
-      console.log(route.params?.code)
+      console.log(route.params?.email);
+      console.log(route.params?.code);
       await recoverPassword({
         code: route.params?.code!,
         email: route.params?.email!,
@@ -83,22 +84,26 @@ const RecoverPassword = () => {
       <ContainerInputs showsVerticalScrollIndicator={false}>
         <Input
           title={'Nova senha'}
-          value={newPassword}
-          onChangeText={setNewPassword}
-          secureTextEntry={isSecure ? false : true}
           isIcon={true}
           isSecret={isSecure}
-          onPress={() => setSecure(!isSecure)}
-        />
+          onPress={() => setSecure(!isSecure)}>
+          <TextInput
+            value={newPassword}
+            onChangeText={setNewPassword}
+            secureTextEntry={isSecure ? false : true}
+          />
+        </Input>
         <Input
           title={'Cofirmar nova senha'}
-          value={confirmNewPassword}
-          onChangeText={setConfirmNewPassword}
-          secureTextEntry={isSecure ? false : true}
           isIcon={true}
           isSecret={isSecure}
-          onPress={() => setSecure(!isSecure)}
-        />
+          onPress={() => setSecure(!isSecure)}>
+          <TextInput
+            value={confirmNewPassword}
+            onChangeText={setConfirmNewPassword}
+            secureTextEntry={isSecure ? false : true}
+          />
+        </Input>
         {errorHeight.value !== 0 && (
           <WrapperError style={animationStyle}>
             <TextError>{errorMessage}</TextError>

@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Container, ContainerHeader, ContainerContent } from './styled';
 
-import Profile from '../../components/Profile';
-import MenuCard from '../../components/MenuCard';
 import { Colors } from '../../styles/Colors';
 import { useNavigation, CommonActions } from '@react-navigation/native';
 import { AuthContext } from '../../context/Auth';
 import { localStorage } from '../../utils/localStorage';
+import { Profile } from '../../components/Profile';
+import { MenuCard } from '../../components/MenuCard';
 
 const Menu = () => {
   const navigation = useNavigation();

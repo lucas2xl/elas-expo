@@ -11,7 +11,7 @@ import {
 
 const day = new Date().getDate();
 
-const Circle = () => {
+export const Circle = () => {
   const [dayOfCicle, setDayOfCicle] = useState(day);
 
   useEffect(() => {
@@ -31,4 +31,3 @@ const Circle = () => {
   );
 };
 
-export default Circle;

@@ -9,15 +9,14 @@ import {
 } from './styled';
 import { useNavigation } from '@react-navigation/core';
 
-import Button from '../../components/Button';
-import Circle from '../../components/Circle';
-import Modal from '../../components/Modal';
-
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '../../styles/Colors';
 import { api } from '../../services';
 import * as Location from 'expo-location';
 import { AuthContext } from '../../context/Auth';
+import { Circle } from '../../components/Circle';
+import { Button } from '../../components/Button';
+import { Modal } from '../../components/Modal';
 
 interface ICall {
   user_id: string;
@@ -39,25 +38,29 @@ const Home = () => {
     try {
       setLoading(true);
 
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        throw 'Permission to access location was denied';
-      }
-      const location = await Location.getCurrentPositionAsync({});
+      // const { status } = await Location.requestForegroundPermissionsAsync();
+      // if (status !== 'granted') {
+      //   throw 'Permission to access location was denied';
+      // }
+      // const location = await Location.getCurrentPositionAsync({});
 
-      await api.post<ICall>('/calls', {
-        user_id: user?.id,
-        latitude: location?.coords.latitude,
-        longitude: location?.coords.longitude,
-      });
-      setSuccess(true);
-      setModal(false);
+      // await api.post<ICall>('/calls', {
+      //   user_id: user?.id,
+      //   latitude: location?.coords.latitude,
+      //   longitude: location?.coords.longitude,
+      // });
+      setTimeout(() => {
+        setSuccess(true);
+        setModal(false);
+        setLoading(false);
+      }, 2000);
     } catch (error) {
       console.log(error);
       setError(true);
       console.log(error);
-    } finally {
       setLoading(false);
+    } finally {
+     
     }
   };
 
