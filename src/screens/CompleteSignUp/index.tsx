@@ -5,10 +5,10 @@ import {
   ContainerPicker,
   ContainerFooter,
   TermWrapper,
-  TermText,
 } from './styled';
 import { Picker } from '@react-native-picker/picker';
 import { useNavigation, useRoute, CommonActions } from '@react-navigation/core';
+import * as ImagePicker from 'expo-image-picker';
 
 import Fonts from '../../styles/Fonts';
 import { AuthContext, IUser } from '../../context/Auth';
@@ -26,15 +26,29 @@ const CompleteSingUp = () => {
   const route = useRoute<any>();
   const { email, password, social_name } = route.params.userSignUp;
 
+  const [image, setImage] = useState<string | null>(null);
   const [isError, serIsError] = useState({
     is: false,
     message: '',
   });
-  const [userCompleteSignUp, setUserCompleteSignUp] = useState<IUser>(
-    {} as IUser,
-  );
+  const [userCompleteSignUp, setUserCompleteSignUp] = useState<IUser>({
+    gender: 'fem',
+  } as IUser);
   const [loading, setLoading] = useState(false);
   const [acceptTerm, setAcceptTerm] = useState(false);
+
+  async function pickImage() {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  }
 
   const handleCompleteSignUp = async () => {
     serIsError({
@@ -69,19 +83,20 @@ const CompleteSingUp = () => {
 
       const user = {
         ...userCompleteSignUp,
+        complement: image ? image : '',
         email,
         password,
         social_name,
       };
+      console.log(user);
       await signUp({ ...user });
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
-          routes: [{ name: 'Home' }],
+          routes: [{ name: 'SignIn' }],
         }),
       );
     } catch (error: any) {
-      console.log(error);
       if (error.message.includes('400')) {
         return serIsError({
           is: true,
@@ -102,7 +117,7 @@ const CompleteSingUp = () => {
       <KeyboardAvoidingView
         behavior="position"
         keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
-        <Profile name={social_name} />
+        <Profile name={social_name} onPress={pickImage} photo={image} />
         <Input title={'Nome completo'}>
           <TextInput
             value={userCompleteSignUp?.full_name}

@@ -81,9 +81,10 @@ const Home = () => {
           <Circle />
         </ContentContainer>
         <ContainerFooter>
-          <Button text={'emergência'} onPress={() => setModal(true)} />
+          <Button text={'Criar um ciclo'} onPress={() => setModal(true)} />
         </ContainerFooter>
       </Container>
+
       {isModal && (
         <Modal
           cancelText={'Não'}

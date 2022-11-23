@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, ContainerInputs, TextError } from './styled';
 import { useNavigation } from '@react-navigation/core';
 
@@ -27,6 +27,10 @@ const SignUp = () => {
     message: '',
   });
 
+  useEffect(() => {
+    console.log('userSignUp');
+  }, []);
+
   const handleSignUp = async () => {
     serIsError({ is: false, message: '' });
 
@@ -50,7 +54,7 @@ const SignUp = () => {
 
   return (
     <Container
-      behavior="padding"
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
       <HeaderInformation
         title={'Cadastro'}
@@ -77,6 +81,7 @@ const SignUp = () => {
             }
             style={{ flex: 1, height: 40 }}
             keyboardType="email-address"
+            autoCapitalize="none"
           />
         </Input>
         <Input

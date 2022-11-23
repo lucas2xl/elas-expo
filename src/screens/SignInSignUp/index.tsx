@@ -32,7 +32,7 @@ const SignInSignUp = () => {
       if (!hasAuthenticateOnStorage) return;
 
       const isAuthenticate = await LocalAuthentication.authenticateAsync();
-      if (!isAuthenticate) return;
+      if (!isAuthenticate.success) return;
 
       const { email, password } = hasAuthenticateOnStorage;
       await signIn({ email, password });

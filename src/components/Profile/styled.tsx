@@ -29,6 +29,7 @@ export const ContainerIcon = styled.View`
 export const Icon = styled.Image`
   width: 80px;
   height: 80px;
+  border-radius: 40px;
 `;
 
 export const ChangePhoto = styled.TouchableOpacity`

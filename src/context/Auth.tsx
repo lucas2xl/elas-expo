@@ -27,8 +27,6 @@ export interface IUser {
   role?: number;
 }
 
-export type IUserResponse = Pick<IUser, 'id' | 'social_name'>;
-
 export interface IUserSignIn {
   email: string;
   password: string;
@@ -59,10 +57,10 @@ export interface ICheckCodeResponse {
 }
 
 interface IAuthContextData {
-  user: IUserResponse | null;
+  user: IUser | null;
   signOut: () => void;
   signIn: ({ email, password }: IUserSignIn) => Promise<void>;
-  signUp: (data: IUser) => Promise<IUserResponse>;
+  signUp: (data: IUser) => Promise<IUser>;
   generateCodeForRecoverPassword: (email: string) => Promise<string>;
   checkCode: (email: string, code: string) => Promise<ICode>;
   recoverPassword: ({
@@ -74,16 +72,13 @@ interface IAuthContextData {
 
 interface IAuthResponse {
   token: string;
-  user: {
-    id: string;
-    social_name: string;
-  };
+  user: IUser;
 }
 
 export const AuthContext = createContext({} as IAuthContextData);
 
 const AuthProvider = ({ children }: IAuthProvider) => {
-  const [user, setUser] = useState<IUserResponse | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     getUser();
@@ -116,7 +111,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     const { token, user } = res.data;
 
     await AsyncStorage.setItem('@elas-app:token', token);
-    await AsyncStorage.setItem('@elas-app:id', user.id);
+    await AsyncStorage.setItem('@elas-app:id', user?.id!);
 
     api.defaults.headers.common.authorization = `Bearer ${token}`;
 
@@ -127,6 +122,7 @@ const AuthProvider = ({ children }: IAuthProvider) => {
     const res = await api.post<IAuthResponse>('/users', {
       ...data,
     });
+    console.log(res);
     const { user } = res.data;
 
     return user;
