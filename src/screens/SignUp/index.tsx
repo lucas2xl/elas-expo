@@ -65,7 +65,8 @@ const SignUp = () => {
             onChangeText={(text: string) =>
               setUserSignUp({ ...userSignUp, social_name: text })
             }
-            style={{flex:1}}
+            style={{ flex: 1, height: 40 }}
+            autoCapitalize="words"
           />
         </Input>
         <Input title={'E-mail'}>
@@ -74,7 +75,8 @@ const SignUp = () => {
             onChangeText={(text) =>
               setUserSignUp({ ...userSignUp, email: text })
             }
-            style={{flex:1}}
+            style={{ flex: 1, height: 40 }}
+            keyboardType="email-address"
           />
         </Input>
         <Input
@@ -88,7 +90,10 @@ const SignUp = () => {
               setUserSignUp({ ...userSignUp, password: text })
             }
             secureTextEntry={isPassword ? false : true}
-            style={{flex:1}}
+            style={{ flex: 1, height: 40 }}
+            autoCorrect={false}
+            autoCapitalize="none"
+            textContentType="oneTimeCode"
           />
         </Input>
         <Input
@@ -98,7 +103,11 @@ const SignUp = () => {
             value={password_confirmation}
             onChangeText={(text) => setPassword_confirmation(text)}
             secureTextEntry={isPassword ? false : true}
-            style={{flex:1}}
+            style={{ flex: 1, height: 40 }}
+            autoCorrect={false}
+            autoCapitalize="none"
+            autoCompleteType="off"
+            textContentType="oneTimeCode"
           />
         </Input>
         {isError.is && <TextError>{isError.message}</TextError>}

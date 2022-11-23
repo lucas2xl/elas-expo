@@ -30,18 +30,9 @@ const CompleteSingUp = () => {
     is: false,
     message: '',
   });
-  const [userCompleteSignUp, setUserCompleteSignUp] = useState<IUser>({
-    full_name: '',
-    cpf: 0,
-    phone: 0,
-    cep: 0,
-    address: '',
-    complement: '',
-    gender: '',
-    email,
-    social_name,
-    password,
-  });
+  const [userCompleteSignUp, setUserCompleteSignUp] = useState<IUser>(
+    {} as IUser,
+  );
   const [loading, setLoading] = useState(false);
   const [acceptTerm, setAcceptTerm] = useState(false);
 
@@ -52,11 +43,11 @@ const CompleteSingUp = () => {
     });
 
     if (
-      !userCompleteSignUp.full_name ||
-      !userCompleteSignUp.cpf ||
-      !userCompleteSignUp.address ||
-      userCompleteSignUp.phone === 0 ||
-      userCompleteSignUp.cep === 0
+      !userCompleteSignUp?.full_name ||
+      !userCompleteSignUp?.cpf ||
+      !userCompleteSignUp?.address ||
+      !userCompleteSignUp?.phone ||
+      !userCompleteSignUp?.cep
     ) {
       return serIsError({
         is: true,
@@ -67,11 +58,6 @@ const CompleteSingUp = () => {
         is: true,
         message: 'CPF inválido',
       });
-    } else if (String(userCompleteSignUp.phone).length !== 11) {
-      return serIsError({
-        is: true,
-        message: 'Telefone inválido',
-      });
     } else if (String(userCompleteSignUp.cep).length !== 8) {
       return serIsError({
         is: true,
@@ -81,7 +67,13 @@ const CompleteSingUp = () => {
     try {
       setLoading(true);
 
-      await signUp({ ...userCompleteSignUp });
+      const user = {
+        ...userCompleteSignUp,
+        email,
+        password,
+        social_name,
+      };
+      await signUp({ ...user });
       navigation.dispatch(
         CommonActions.reset({
           index: 1,
@@ -89,6 +81,7 @@ const CompleteSingUp = () => {
         }),
       );
     } catch (error: any) {
+      console.log(error);
       if (error.message.includes('400')) {
         return serIsError({
           is: true,
@@ -112,54 +105,71 @@ const CompleteSingUp = () => {
         <Profile name={social_name} />
         <Input title={'Nome completo'}>
           <TextInput
-            value={userCompleteSignUp.full_name}
+            value={userCompleteSignUp?.full_name}
             onChangeText={(text) =>
-              setUserCompleteSignUp({ ...userCompleteSignUp, full_name: text })
+              setUserCompleteSignUp((prevState) => ({
+                ...prevState!,
+                full_name: text,
+              }))
             }
+            autoCapitalize="words"
+            style={{ flex: 1, height: 40 }}
           />
         </Input>
         <InputSeparator>
           <Input isRow={true} title={'CPF'}>
             <TextInput
-              value={userCompleteSignUp.cpf.toString()}
+              value={userCompleteSignUp?.cpf?.toString()}
               onChangeText={(text) =>
-                setUserCompleteSignUp({
-                  ...userCompleteSignUp,
+                setUserCompleteSignUp((prevState) => ({
+                  ...prevState!,
                   cpf: Number(text),
-                })
+                }))
               }
+              keyboardType="phone-pad"
+              style={{ flex: 1, height: 40 }}
+              maxLength={11}
             />
           </Input>
         </InputSeparator>
         <Input title={'Telefone'}>
           <TextInput
-            value={userCompleteSignUp.phone.toString()}
+            value={userCompleteSignUp?.phone?.toString()}
             onChangeText={(text) =>
-              setUserCompleteSignUp({
-                ...userCompleteSignUp,
+              setUserCompleteSignUp((prevState) => ({
+                ...prevState!,
                 phone: Number(text),
-              })
+              }))
             }
+            keyboardType="phone-pad"
+            style={{ flex: 1, height: 40 }}
+            maxLength={11}
           />
         </Input>
 
         <InputSeparator>
           <Input isRow={true} title={'CEP'}>
             <TextInput
-              value={userCompleteSignUp.cep.toString()}
+              value={userCompleteSignUp?.cep?.toString()}
               onChangeText={(text) =>
-                setUserCompleteSignUp({
-                  ...userCompleteSignUp,
+                setUserCompleteSignUp((prevState) => ({
+                  ...prevState!,
                   cep: Number(text),
-                })
+                }))
               }
+              keyboardType="phone-pad"
+              style={{ flex: 1, height: 40 }}
+              maxLength={8}
             />
           </Input>
           <ContainerPicker>
             <Picker
-              selectedValue={userCompleteSignUp.gender}
+              selectedValue={userCompleteSignUp?.gender}
               onValueChange={(value: string) =>
-                setUserCompleteSignUp({ ...userCompleteSignUp, gender: value })
+                setUserCompleteSignUp((prevState) => ({
+                  ...prevState!,
+                  gender: value,
+                }))
               }>
               <Picker.Item
                 label="Feminino"
@@ -190,18 +200,26 @@ const CompleteSingUp = () => {
         </InputSeparator>
         <Input title={'Endereço'}>
           <TextInput
-            value={userCompleteSignUp.address}
+            value={userCompleteSignUp?.address}
             onChangeText={(text) =>
-              setUserCompleteSignUp({ ...userCompleteSignUp, address: text })
+              setUserCompleteSignUp((prevState) => ({
+                ...prevState!,
+                address: text,
+              }))
             }
+            style={{ flex: 1, height: 40 }}
           />
         </Input>
         <Input title={'Complemento'}>
           <TextInput
-            value={userCompleteSignUp.complement}
+            value={userCompleteSignUp?.complement}
             onChangeText={(text) =>
-              setUserCompleteSignUp({ ...userCompleteSignUp, complement: text })
+              setUserCompleteSignUp((prevState) => ({
+                ...prevState!,
+                complement: text,
+              }))
             }
+            style={{ flex: 1, height: 40 }}
           />
         </Input>
 

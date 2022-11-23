@@ -48,17 +48,14 @@ const RecoverPassword = () => {
     try {
       setLoading(true);
       if (newPassword !== confirmNewPassword) {
-        console.log('1');
         setErrorMessage('senhas nao coincidem');
         return;
       }
       if (newPassword.length < 8) {
-        console.log('2');
         setErrorMessage('senha deve ter pelo menos 8 caracteres');
         return;
       }
-      console.log(route.params?.email);
-      console.log(route.params?.code);
+
       await recoverPassword({
         code: route.params?.code!,
         email: route.params?.email!,
@@ -91,6 +88,7 @@ const RecoverPassword = () => {
             value={newPassword}
             onChangeText={setNewPassword}
             secureTextEntry={isSecure ? false : true}
+            style={{ flex: 1, height: 40 }}
           />
         </Input>
         <Input
@@ -102,6 +100,7 @@ const RecoverPassword = () => {
             value={confirmNewPassword}
             onChangeText={setConfirmNewPassword}
             secureTextEntry={isSecure ? false : true}
+            style={{ flex: 1, height: 40 }}
           />
         </Input>
         {errorHeight.value !== 0 && (

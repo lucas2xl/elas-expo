@@ -15,7 +15,6 @@ import { Feather } from '@expo/vector-icons';
 import { Colors } from '../styles/Colors';
 import Fonts from '../styles/Fonts';
 import { AuthContext, AuthProvider } from '../context/Auth';
-import { color } from 'react-native-reanimated';
 import RecoverPassword from '../screens/RecoverPassword';
 
 interface RoutesProps {}

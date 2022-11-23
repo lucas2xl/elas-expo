@@ -11,7 +11,7 @@ import { useNavigation } from '@react-navigation/core';
 
 import { MaterialIcons } from '@expo/vector-icons';
 import { Colors } from '../../styles/Colors';
-import { api } from '../../services';
+import { api, socket } from '../../services';
 import * as Location from 'expo-location';
 import { AuthContext } from '../../context/Auth';
 import { Circle } from '../../components/Circle';
@@ -32,23 +32,22 @@ const Home = () => {
   const [isError, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {}, []);
-
   const handleCall = async () => {
     try {
       setLoading(true);
 
-      // const { status } = await Location.requestForegroundPermissionsAsync();
-      // if (status !== 'granted') {
-      //   throw 'Permission to access location was denied';
-      // }
-      // const location = await Location.getCurrentPositionAsync({});
+      const { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== 'granted') {
+        throw 'Permission to access location was denied';
+      }
+      const location = await Location.getCurrentPositionAsync({});
 
-      // await api.post<ICall>('/calls', {
-      //   user_id: user?.id,
-      //   latitude: location?.coords.latitude,
-      //   longitude: location?.coords.longitude,
-      // });
+      await api.post<ICall>('/calls', {
+        user_id: user?.id,
+        latitude: location?.coords.latitude,
+        longitude: location?.coords.longitude,
+      });
+      socket.emit('call');
       setTimeout(() => {
         setSuccess(true);
         setModal(false);
@@ -60,7 +59,6 @@ const Home = () => {
       console.log(error);
       setLoading(false);
     } finally {
-     
     }
   };
 
@@ -83,10 +81,7 @@ const Home = () => {
           <Circle />
         </ContentContainer>
         <ContainerFooter>
-          <Button
-            text={'emergência'}
-            onPress={() => setModal(true)}
-          />
+          <Button text={'emergência'} onPress={() => setModal(true)} />
         </ContainerFooter>
       </Container>
       {isModal && (

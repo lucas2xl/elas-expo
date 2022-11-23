@@ -1,9 +1,8 @@
 import React from 'react';
-import AppLoading from 'expo-app-loading';
 import {
   useFonts,
   Roboto_400Regular,
-  Roboto_700Bold
+  Roboto_700Bold,
 } from '@expo-google-fonts/roboto';
 import { Routes } from './src/routes';
 
@@ -12,10 +11,12 @@ const App = () => {
     Roboto_400Regular,
     Roboto_700Bold,
   });
-  if (!fontsLoaded) return <AppLoading />;
-  return (
-   <Routes />
-  );
-}
+
+  if (!fontsLoaded) {
+    return null;
+  }
+
+  return <Routes />;
+};
 
 export default App;

@@ -32,7 +32,7 @@ export interface ISignIn {
 
 const Login = () => {
   const navigation = useNavigation();
-  const { signIn, generateCodeForRecoverPassword, recoverPassword, checkCode } =
+  const { signIn, generateCodeForRecoverPassword, checkCode } =
     useContext(AuthContext);
   const [userLogin, setUserLogin] = useState<ISignIn>({
     email: '',
@@ -75,7 +75,7 @@ const Login = () => {
         }),
       );
     } catch (error: any) {
-      console.log(error.message);
+      console.log(error);
       if (error.message.includes('401')) {
         setErrorMessage('E-mail e/ou senha inválido');
       } else {
@@ -179,7 +179,8 @@ const Login = () => {
                 setUserLogin({ ...userLogin, email: text })
               }
               keyboardType={'email-address'}
-              style={{flex:1}}
+              style={{ flex: 1, height: 40 }}
+              autoCapitalize={'none'}
             />
           </Input>
           <Input
@@ -193,7 +194,9 @@ const Login = () => {
                 setUserLogin({ ...userLogin, password: text })
               }
               secureTextEntry={isSecure ? false : true}
-              style={{flex:1}}
+              style={{ flex: 1, height: 40 }}
+              autoCapitalize={'none'}
+              autoCorrect={false}
             />
           </Input>
           {errorHeight.value !== 0 && (
