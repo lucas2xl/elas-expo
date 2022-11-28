@@ -14,11 +14,12 @@ export type ISignUp = Pick<IUser, 'social_name' | 'email' | 'password'>;
 const SignUp = () => {
   const navigation = useNavigation();
   const [userSignUp, setUserSignUp] = useState<ISignUp>({
-    social_name: '',
-    email: '',
-    password: '',
+    social_name: 'teste',
+    email: 'teste@teste.com',
+    password: '12345678',
   });
-  const [password_confirmation, setPassword_confirmation] = useState('');
+  const [password_confirmation, setPassword_confirmation] =
+    useState('12345678');
 
   const [isPassword, setIsPassword] = useState(false);
   const [loading, setLoading] = useState(false);

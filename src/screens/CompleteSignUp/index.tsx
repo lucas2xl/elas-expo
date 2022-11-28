@@ -19,6 +19,7 @@ import { Profile } from '../../components/Profile';
 import { Input } from '../../components/Input';
 import { SelectInformation } from '../../components/SelectInformation';
 import { Button } from '../../components/Button';
+import MaskInput from 'react-native-mask-input';
 
 const CompleteSingUp = () => {
   const navigation = useNavigation();
@@ -36,6 +37,43 @@ const CompleteSingUp = () => {
   } as IUser);
   const [loading, setLoading] = useState(false);
   const [acceptTerm, setAcceptTerm] = useState(false);
+  const cpfMask = [
+    /\d/,
+    /\d/,
+    /\d/,
+    '.',
+    /\d/,
+    /\d/,
+    /\d/,
+    '.',
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+  ];
+  const phoneMask = [
+    '(',
+    /\d/,
+    /\d/,
+    ')',
+    ' ',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+    '-',
+    /\d/,
+    /\d/,
+    /\d/,
+    /\d/,
+  ];
+  const cepMask = [/\d/, /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/];
+  const [cpf, setCpf] = useState('');
+  const [phone, setPhone] = useState('');
+  const [cep, setCep] = useState('');
 
   async function pickImage() {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -133,48 +171,51 @@ const CompleteSingUp = () => {
         </Input>
         <InputSeparator>
           <Input isRow={true} title={'CPF'}>
-            <TextInput
-              value={userCompleteSignUp?.cpf?.toString()}
-              onChangeText={(text) =>
+            <MaskInput
+              value={cpf}
+              onChangeText={(masked, unmasked) => {
                 setUserCompleteSignUp((prevState) => ({
                   ...prevState!,
-                  cpf: Number(text),
-                }))
-              }
+                  cpf: Number(unmasked),
+                }));
+                setCpf(masked);
+              }}
+              mask={cpfMask}
               keyboardType="phone-pad"
               style={{ flex: 1, height: 40 }}
-              maxLength={11}
             />
           </Input>
         </InputSeparator>
         <Input title={'Telefone'}>
-          <TextInput
-            value={userCompleteSignUp?.phone?.toString()}
-            onChangeText={(text) =>
+          <MaskInput
+            value={phone}
+            onChangeText={(masked, unmasked) => {
               setUserCompleteSignUp((prevState) => ({
                 ...prevState!,
-                phone: Number(text),
-              }))
-            }
+                phone: Number(unmasked),
+              }));
+              setPhone(masked);
+            }}
             keyboardType="phone-pad"
             style={{ flex: 1, height: 40 }}
-            maxLength={11}
+            mask={phoneMask}
           />
         </Input>
 
         <InputSeparator>
           <Input isRow={true} title={'CEP'}>
-            <TextInput
-              value={userCompleteSignUp?.cep?.toString()}
-              onChangeText={(text) =>
+            <MaskInput
+              value={cep}
+              onChangeText={(masked, unmasked) => {
                 setUserCompleteSignUp((prevState) => ({
                   ...prevState!,
-                  cep: Number(text),
-                }))
-              }
+                  cep: Number(unmasked),
+                }));
+                setCep(masked);
+              }}
               keyboardType="phone-pad"
               style={{ flex: 1, height: 40 }}
-              maxLength={8}
+              mask={cepMask}
             />
           </Input>
           <ContainerPicker>
