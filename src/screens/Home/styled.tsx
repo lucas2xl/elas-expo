@@ -4,10 +4,14 @@ import styled from 'styled-components/native';
 import { Colors } from '../../styles/Colors';
 import Fonts from '../../styles/Fonts';
 
-export const Container = styled.View`
+interface HomeProps {
+  isDark: boolean;
+}
+export const Container = styled.View<HomeProps>`
   flex: 1;
   justify-content: space-between;
-  background-color: ${Colors.pinkLight};
+  background-color: ${(props) =>
+    props.isDark ? Colors.black : Colors.pinkLight};
 `;
 
 export const HeaderContainer = styled.View`
@@ -17,11 +21,11 @@ export const HeaderContainer = styled.View`
   text-align: center;
 `;
 
-export const Title = styled.Text`
+export const Title = styled.Text<HomeProps>`
   flex: 1;
   font-size: 26px;
   font-family: ${Fonts.bold};
-  color: ${Colors.primary};
+  color: ${(props) => (props.isDark ? Colors.white : Colors.primary)};
   text-align: center;
   padding-left: 30px;
 `;

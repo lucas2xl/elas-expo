@@ -8,9 +8,11 @@ import { localStorage } from '../../utils/localStorage';
 import { Profile } from '../../components/Profile';
 import { MenuCard } from '../../components/MenuCard';
 import * as ImagePicker from 'expo-image-picker';
+import { useThemeStore } from '../../store/theme';
 
 const Menu = () => {
   const navigation = useNavigation();
+  const { theme, toggleTheme } = useThemeStore();
   const { user, signOut } = useContext(AuthContext);
   const [image, setImage] = useState<string | null>(null);
 
@@ -61,6 +63,12 @@ const Menu = () => {
           text={'Contatos'}
           name={'contacts'}
           color={Colors.secondary}
+        />
+        <MenuCard
+          text={theme === 'ciclo' ? 'Tema claro' : 'Tema escuro'}
+          name={'contacts'}
+          color={Colors.white}
+          onPress={toggleTheme}
         />
         <MenuCard text={'Ajuda'} name={'help'} color={Colors.primary} />
         <MenuCard

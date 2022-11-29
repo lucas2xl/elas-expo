@@ -18,10 +18,10 @@ export interface IUser {
   social_name: string;
   password: string;
   email: string;
-  cpf: number;
+  cpf: number | string;
   gender: string;
-  phone: number;
-  cep: number;
+  phone: number | string;
+  cep: number | string;
   address: string;
   complement: string;
   role?: number;

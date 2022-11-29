@@ -6,9 +6,10 @@ import Fonts from '../../styles/Fonts';
 interface IColors {
   color?: string;
   textColor?: string;
+  isDark?: boolean;
 }
 
-export const Container = styled.TouchableOpacity`
+export const Container = styled.TouchableOpacity<IColors>`
   flex-direction: row;
   justify-content: center;
   align-items: center;
@@ -18,7 +19,8 @@ export const Container = styled.TouchableOpacity`
   border-radius: 20px;
   border-width: 1px;
   border-color: #eaecef;
-  background-color: ${(props: IColors) => props.color || Colors.primary};
+  background-color: ${(props: IColors) =>
+    props.isDark ? Colors.black : props.color || Colors.primary};
 `;
 export const Image = styled.Image`
   width: 20px;

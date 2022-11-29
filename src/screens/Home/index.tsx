@@ -17,6 +17,8 @@ import { AuthContext } from '../../context/Auth';
 import { Circle } from '../../components/Circle';
 import { Button } from '../../components/Button';
 import { Modal } from '../../components/Modal';
+import { useThemeStore } from '../../store/theme';
+import { Weather } from '../../components/Weather';
 
 interface ICall {
   user_id: string;
@@ -26,6 +28,7 @@ interface ICall {
 
 const Home = () => {
   const navigation = useNavigation();
+  const theme = useThemeStore((state) => state.theme);
   const { user } = useContext(AuthContext);
   const [isModal, setModal] = useState(false);
   const [isSuccess, setSuccess] = useState(false);
@@ -36,16 +39,16 @@ const Home = () => {
     try {
       setLoading(true);
 
-      const { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        throw 'Permission to access location was denied';
-      }
-      const location = await Location.getCurrentPositionAsync({});
+      // const { status } = await Location.requestForegroundPermissionsAsync();
+      // if (status !== 'granted') {
+      //   throw 'Permission to access location was denied';
+      // }
+      // const location = await Location.getCurrentPositionAsync({});
 
       await api.post<ICall>('/calls', {
         user_id: user?.id,
-        latitude: location?.coords.latitude,
-        longitude: location?.coords.longitude,
+        latitude: 309217309213,
+        longitude: 312937691,
       });
       socket.emit('call');
       setTimeout(() => {
@@ -64,12 +67,14 @@ const Home = () => {
 
   return (
     <>
-      <Container>
+      <Container isDark={theme === 'weather'}>
         <HeaderContainer>
-          <Title>ELAS</Title>
+          <Title isDark={theme === 'weather'}>
+            {theme === 'ciclo' ? 'ELAS' : 'TEMPO'}
+          </Title>
           <MaterialIcons
             name={'menu'}
-            color={Colors.primary}
+            color={theme === 'weather' ? Colors.white : Colors.primary}
             size={30}
             onPress={() => {
               navigation.navigate('Menu');
@@ -77,11 +82,17 @@ const Home = () => {
           />
         </HeaderContainer>
         <ContentContainer>
-          <Icon source={require('../../assets/images/Logo.png')} />
-          <Circle />
+          {theme === 'ciclo' && (
+            <Icon source={require('../../assets/images/Logo.png')} />
+          )}
+
+          {theme === 'ciclo' ? <Circle /> : <Weather />}
         </ContentContainer>
         <ContainerFooter>
-          <Button text={'Criar um ciclo'} onPress={() => setModal(true)} />
+          <Button
+            text={theme === 'ciclo' ? 'Criar um ciclo' : 'Verificar tempo'}
+            onPress={() => setModal(true)}
+          />
         </ContainerFooter>
       </Container>
 

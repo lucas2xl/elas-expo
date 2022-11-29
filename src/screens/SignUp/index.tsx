@@ -18,8 +18,6 @@ const SignUp = () => {
     email: '',
     password: '',
   });
-  const [password_confirmation, setPassword_confirmation] = useState('');
-
   const [isPassword, setIsPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [isError, serIsError] = useState({
@@ -44,8 +42,6 @@ const SignUp = () => {
         is: true,
         message: 'a senha deve conter no mínimo 8 caracteres',
       });
-    } else if (password_confirmation !== userSignUp.password) {
-      return serIsError({ is: true, message: 'Senhas não coincidem' });
     }
     setLoading(true);
     navigation.navigate('CompleteSignUp', { userSignUp });
@@ -101,20 +97,7 @@ const SignUp = () => {
             textContentType="oneTimeCode"
           />
         </Input>
-        <Input
-          title={'Confirmar Senha'}
-          onPress={() => setIsPassword(!isPassword)}>
-          <TextInput
-            value={password_confirmation}
-            onChangeText={(text) => setPassword_confirmation(text)}
-            secureTextEntry={isPassword ? false : true}
-            style={{ flex: 1, height: 40 }}
-            autoCorrect={false}
-            autoCapitalize="none"
-            autoCompleteType="off"
-            textContentType="oneTimeCode"
-          />
-        </Input>
+
         {isError.is && <TextError>{isError.message}</TextError>}
 
         <Button text={'Continuar'} onPress={handleSignUp} loading={loading} />

@@ -20,6 +20,8 @@ import { Input } from '../../components/Input';
 import { SelectInformation } from '../../components/SelectInformation';
 import { Button } from '../../components/Button';
 import MaskInput from 'react-native-mask-input';
+import { Modal } from '../../components/Modal';
+import { TERM } from '../../constants/term';
 
 const CompleteSingUp = () => {
   const navigation = useNavigation();
@@ -36,6 +38,7 @@ const CompleteSingUp = () => {
     gender: 'fem',
   } as IUser);
   const [loading, setLoading] = useState(false);
+  const [showAcceptTermModal, setShowAcceptTermModal] = useState(false);
   const [acceptTerm, setAcceptTerm] = useState(false);
   const cpfMask = [
     /\d/,
@@ -93,6 +96,7 @@ const CompleteSingUp = () => {
       is: false,
       message: '',
     });
+    console.log(userCompleteSignUp);
 
     if (
       !userCompleteSignUp?.full_name ||
@@ -125,8 +129,11 @@ const CompleteSingUp = () => {
         email,
         password,
         social_name,
+        cep: Number(userCompleteSignUp.cep),
+        cpf: Number(userCompleteSignUp.cpf),
+        phone: Number(userCompleteSignUp.phone),
       };
-      console.log(user);
+      console.log({ user });
       await signUp({ ...user });
       navigation.dispatch(
         CommonActions.reset({
@@ -151,154 +158,171 @@ const CompleteSingUp = () => {
   };
 
   return (
-    <Container showsVerticalScrollIndicator={false}>
-      <KeyboardAvoidingView
-        behavior="position"
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
-        <Profile name={social_name} onPress={pickImage} photo={image} />
-        <Input title={'Nome completo'}>
-          <TextInput
-            value={userCompleteSignUp?.full_name}
-            onChangeText={(text) =>
-              setUserCompleteSignUp((prevState) => ({
-                ...prevState!,
-                full_name: text,
-              }))
-            }
-            autoCapitalize="words"
-            style={{ flex: 1, height: 40 }}
-          />
-        </Input>
-        <InputSeparator>
-          <Input isRow={true} title={'CPF'}>
-            <MaskInput
-              value={cpf}
-              onChangeText={(masked, unmasked) => {
+    <>
+      <Container showsVerticalScrollIndicator={false}>
+        <KeyboardAvoidingView
+          behavior="position"
+          keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0}>
+          <Profile name={social_name} onPress={pickImage} photo={image} />
+          <Input title={'Nome completo'}>
+            <TextInput
+              value={userCompleteSignUp?.full_name}
+              onChangeText={(text) =>
                 setUserCompleteSignUp((prevState) => ({
                   ...prevState!,
-                  cpf: Number(unmasked),
-                }));
-                setCpf(masked);
-              }}
-              mask={cpfMask}
-              keyboardType="phone-pad"
-              style={{ flex: 1, height: 40 }}
-            />
-          </Input>
-        </InputSeparator>
-        <Input title={'Telefone'}>
-          <MaskInput
-            value={phone}
-            onChangeText={(masked, unmasked) => {
-              setUserCompleteSignUp((prevState) => ({
-                ...prevState!,
-                phone: Number(unmasked),
-              }));
-              setPhone(masked);
-            }}
-            keyboardType="phone-pad"
-            style={{ flex: 1, height: 40 }}
-            mask={phoneMask}
-          />
-        </Input>
-
-        <InputSeparator>
-          <Input isRow={true} title={'CEP'}>
-            <MaskInput
-              value={cep}
-              onChangeText={(masked, unmasked) => {
-                setUserCompleteSignUp((prevState) => ({
-                  ...prevState!,
-                  cep: Number(unmasked),
-                }));
-                setCep(masked);
-              }}
-              keyboardType="phone-pad"
-              style={{ flex: 1, height: 40 }}
-              mask={cepMask}
-            />
-          </Input>
-          <ContainerPicker>
-            <Picker
-              selectedValue={userCompleteSignUp?.gender}
-              onValueChange={(value: string) =>
-                setUserCompleteSignUp((prevState) => ({
-                  ...prevState!,
-                  gender: value,
+                  full_name: text,
                 }))
-              }>
-              <Picker.Item
-                label="Feminino"
-                value="fem"
-                color={'rgba(0, 0, 0, 0.5)'}
-                fontFamily={Fonts.regular}
+              }
+              autoCapitalize="words"
+              style={{ flex: 1, height: 40 }}
+            />
+          </Input>
+          <InputSeparator>
+            <Input isRow={true} title={'CPF'}>
+              <MaskInput
+                value={cpf}
+                onChangeText={(masked, unmasked) => {
+                  setUserCompleteSignUp((prevState) => ({
+                    ...prevState!,
+                    cpf: unmasked,
+                  }));
+                  setCpf(masked);
+                }}
+                mask={cpfMask}
+                keyboardType="phone-pad"
+                style={{ flex: 1, height: 40 }}
               />
-              <Picker.Item
-                label="Masculino"
-                value="masc"
-                color={'rgba(0, 0, 0, 0.5)'}
-                fontFamily={Fonts.regular}
-              />
-              <Picker.Item
-                label="Não-binário"
-                value="notbinary"
-                color={'rgba(0, 0, 0, 0.5)'}
-                fontFamily={Fonts.regular}
-              />
-              <Picker.Item
-                label="Outro"
-                value="other"
-                color={'rgba(0, 0, 0, 0.5)'}
-                fontFamily={Fonts.regular}
-              />
-            </Picker>
-          </ContainerPicker>
-        </InputSeparator>
-        <Input title={'Endereço'}>
-          <TextInput
-            value={userCompleteSignUp?.address}
-            onChangeText={(text) =>
-              setUserCompleteSignUp((prevState) => ({
-                ...prevState!,
-                address: text,
-              }))
-            }
-            style={{ flex: 1, height: 40 }}
-          />
-        </Input>
-        <Input title={'Complemento'}>
-          <TextInput
-            value={userCompleteSignUp?.complement}
-            onChangeText={(text) =>
-              setUserCompleteSignUp((prevState) => ({
-                ...prevState!,
-                complement: text,
-              }))
-            }
-            style={{ flex: 1, height: 40 }}
-          />
-        </Input>
+            </Input>
+          </InputSeparator>
+          <Input title={'Telefone'}>
+            <MaskInput
+              value={phone}
+              onChangeText={(masked, unmasked) => {
+                setUserCompleteSignUp((prevState) => ({
+                  ...prevState!,
+                  phone: unmasked,
+                }));
+                setPhone(masked);
+              }}
+              keyboardType="phone-pad"
+              style={{ flex: 1, height: 40 }}
+              mask={phoneMask}
+            />
+          </Input>
 
-        <TermWrapper>
-          <SelectInformation
-            text={'Eu aceito os termos e condições de uso!'}
-            check={acceptTerm}
-            onPress={() => setAcceptTerm(!acceptTerm)}
-            textColor={Colors.orange}
-          />
-        </TermWrapper>
-        {isError.is && <TextError>{isError.message}</TextError>}
-        <ContainerFooter>
-          <Button
-            text={'Finalizar'}
-            onPress={handleCompleteSignUp}
-            loading={loading}
-            color={acceptTerm ? Colors.primary : Colors.black}
-            disabled={!acceptTerm}
-          />
-        </ContainerFooter>
-      </KeyboardAvoidingView>
-    </Container>
+          <InputSeparator>
+            <Input isRow={true} title={'CEP'}>
+              <MaskInput
+                value={cep}
+                onChangeText={(masked, unmasked) => {
+                  setUserCompleteSignUp((prevState) => ({
+                    ...prevState!,
+                    cep: unmasked,
+                  }));
+                  setCep(masked);
+                }}
+                keyboardType="phone-pad"
+                style={{ flex: 1, height: 40 }}
+                mask={cepMask}
+              />
+            </Input>
+            <ContainerPicker>
+              <Picker
+                selectedValue={userCompleteSignUp?.gender}
+                onValueChange={(value: string) =>
+                  setUserCompleteSignUp((prevState) => ({
+                    ...prevState!,
+                    gender: value,
+                  }))
+                }>
+                <Picker.Item
+                  label="Feminino"
+                  value="fem"
+                  color={'rgba(0, 0, 0, 0.5)'}
+                  fontFamily={Fonts.regular}
+                />
+                <Picker.Item
+                  label="Masculino"
+                  value="masc"
+                  color={'rgba(0, 0, 0, 0.5)'}
+                  fontFamily={Fonts.regular}
+                />
+                <Picker.Item
+                  label="Não-binário"
+                  value="notbinary"
+                  color={'rgba(0, 0, 0, 0.5)'}
+                  fontFamily={Fonts.regular}
+                />
+                <Picker.Item
+                  label="Outro"
+                  value="other"
+                  color={'rgba(0, 0, 0, 0.5)'}
+                  fontFamily={Fonts.regular}
+                />
+              </Picker>
+            </ContainerPicker>
+          </InputSeparator>
+          <Input title={'Endereço'}>
+            <TextInput
+              value={userCompleteSignUp?.address}
+              onChangeText={(text) =>
+                setUserCompleteSignUp((prevState) => ({
+                  ...prevState!,
+                  address: text,
+                }))
+              }
+              style={{ flex: 1, height: 40 }}
+            />
+          </Input>
+          <Input title={'Complemento'}>
+            <TextInput
+              value={userCompleteSignUp?.complement}
+              onChangeText={(text) =>
+                setUserCompleteSignUp((prevState) => ({
+                  ...prevState!,
+                  complement: text,
+                }))
+              }
+              style={{ flex: 1, height: 40 }}
+            />
+          </Input>
+
+          <TermWrapper>
+            <SelectInformation
+              text={'Eu aceito os termos e condições de uso!'}
+              check={acceptTerm}
+              onPress={() => setShowAcceptTermModal(true)}
+              textColor={Colors.orange}
+            />
+          </TermWrapper>
+          {isError.is && <TextError>{isError.message}</TextError>}
+          <ContainerFooter>
+            <Button
+              text={'Finalizar'}
+              onPress={handleCompleteSignUp}
+              loading={loading}
+              color={acceptTerm ? Colors.primary : Colors.black}
+              disabled={!acceptTerm}
+            />
+          </ContainerFooter>
+        </KeyboardAvoidingView>
+      </Container>
+      {showAcceptTermModal && (
+        <Modal
+          title="Termos e condições de uso"
+          subtitle={TERM}
+          cancelText={'Não'}
+          confirmText={'Sim'}
+          isModal={acceptTerm}
+          onPressCancel={() => setShowAcceptTermModal(false)}
+          onPressConfirm={() => {
+            setAcceptTerm(true);
+            setShowAcceptTermModal(false);
+          }}
+          isFull
+        />
+      )}
+    </>
   );
 };
 

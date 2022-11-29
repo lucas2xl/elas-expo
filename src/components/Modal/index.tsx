@@ -1,6 +1,6 @@
 import { useIsFocused } from '@react-navigation/native';
-import React, { Children, useEffect } from 'react';
-import { ActivityIndicator } from 'react-native';
+import React, { useEffect } from 'react';
+import { ActivityIndicator, ScrollView } from 'react-native';
 import {
   useAnimatedStyle,
   useSharedValue,
@@ -17,8 +17,6 @@ import {
   ConfirmButton,
   CancelButton,
   ButtonText,
-  InputWrapper,
-  TextInput,
 } from './styled';
 
 interface IModal {
@@ -29,6 +27,7 @@ interface IModal {
   cancelText?: string;
   isModal?: boolean;
   loading?: boolean;
+  isFull?: boolean;
 
   onPressCancel?: () => void;
   onPressConfirm?: () => void;
@@ -54,9 +53,13 @@ export const Modal = (props: IModal) => {
 
   return (
     <Container style={animationStyle}>
-      <Card>
+      <Card isFull={props.isFull}>
         {props.title && <Title>{props.title}</Title>}
-        {props.subtitle && <Subtitle>{props.subtitle}</Subtitle>}
+        {props.subtitle && (
+          <ScrollView showsVerticalScrollIndicator>
+            <Subtitle>{props.subtitle}</Subtitle>
+          </ScrollView>
+        )}
 
         {props.children}
 

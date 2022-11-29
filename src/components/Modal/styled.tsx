@@ -3,7 +3,9 @@ import styled from 'styled-components/native';
 
 import { Colors } from '../../styles/Colors';
 import Fonts from '../../styles/Fonts';
-
+interface Modal {
+  isFull?: boolean;
+}
 export const Container = styled(Animated.View)`
   position: absolute;
   top: 0;
@@ -15,9 +17,9 @@ export const Container = styled(Animated.View)`
   justify-content: center;
   align-items: center;
 `;
-export const Card = styled.View`
+export const Card = styled.View<Modal>`
   width: 90%;
-  height: 25%;
+  height: ${(props) => (props.isFull ? '80%' : '25%')};
   background-color: #fff;
   border-radius: 25px;
   justify-content: space-around;
@@ -45,7 +47,7 @@ export const TextInput = styled.TextInput`
   font-family: ${Fonts.regular};
   color: ${Colors.primary};
   letter-spacing: 10px;
-  flex:1;
+  flex: 1;
 `;
 export const InputWrapper = styled.View`
   border: 1px solid ${Colors.orange};
@@ -62,6 +64,7 @@ export const ContainerButton = styled.View`
   width: 90%;
   align-self: center;
   justify-content: space-around;
+  margin-top: 2px;
 `;
 
 export const ConfirmButton = styled.TouchableOpacity`
