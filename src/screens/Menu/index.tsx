@@ -42,6 +42,11 @@ const Menu = () => {
     }
   }
 
+  function handleToggleTheme() {
+    toggleTheme();
+    navigation.goBack();
+  }
+
   return (
     <Container>
       <ContainerHeader activeOpacity={0.8}>
@@ -68,7 +73,7 @@ const Menu = () => {
           text={theme === 'ciclo' ? 'Tema claro' : 'Tema escuro'}
           name={'contacts'}
           color={Colors.white}
-          onPress={toggleTheme}
+          onPress={handleToggleTheme}
         />
         <MenuCard text={'Ajuda'} name={'help'} color={Colors.primary} />
         <MenuCard

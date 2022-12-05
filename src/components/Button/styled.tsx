@@ -20,7 +20,7 @@ export const Container = styled.TouchableOpacity<IColors>`
   border-width: 1px;
   border-color: #eaecef;
   background-color: ${(props: IColors) =>
-    props.isDark ? Colors.black : props.color || Colors.primary};
+    props.isDark ? Colors.black : props.color ? props.color : Colors.primary};
 `;
 export const Image = styled.Image`
   width: 20px;
